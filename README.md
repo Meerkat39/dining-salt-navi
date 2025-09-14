@@ -1,0 +1,1 @@
+# dining-salt-navi
