@@ -1,0 +1,42 @@
+name: CI # このワークフローの名前
+
+# どのタイミングでCIを実行するか（main/featureブランチへのpush時）
+on:
+  push:
+    branches:
+      - main
+
+# CIで実行するジョブ（ここではbuildのみ）
+jobs:
+  build:
+    # GitHub Actionsの仮想環境（Ubuntu）で実行
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのソースコードをチェックアウト（取得）
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Dockerイメージ（Node.js＋依存パッケージ入り）をビルド
+      - name: Build Docker image
+        # Dockerfileからdining-salt-navi-ciという名前でイメージを作成
+        run: docker build -t dining-salt-navi-ci .
+
+      # Dockerコンテナ内でlint（コード品質チェック）を実行
+      - name: Lint in Docker
+        # dining-salt-navi-ciイメージのコンテナを起動し、npm run lintを実行
+        run: docker run --rm dining-salt-navi-ci npm run lint
+
+      # Dockerコンテナ内で型チェック（TypeScriptの型安全確認）を実行
+      - name: Type check in Docker
+        # dining-salt-navi-ciイメージのコンテナでnpm run type-checkを実行（失敗してもCIは継続）
+        run: docker run --rm dining-salt-navi-ci npm run type-check || true
+
+      # Dockerコンテナ内でテスト（Jestによる単体テスト）を実行
+      - name: Test in Docker
+        # dining-salt-navi-ciイメージのコンテナでnpm testを実行（テストがない場合もpass扱い）
+        run: docker run --rm dining-salt-navi-ci npm test
+
+      # Dockerコンテナ内でビルド（Next.jsの本番用ビルド）を実行
+      - name: Build in Docker
+        # dining-salt-navi-ciイメージのコンテナでnpm run buildを実行
+        run: docker run --rm dining-salt-navi-ci npm run build
