@@ -1,4 +1,3 @@
-
 import { stores } from "@/data/stores";
 import MapView from "@/features/search/MapView/components/MapView";
 import SearchForm from "@/features/search/SearchForm/components/SearchForm";
