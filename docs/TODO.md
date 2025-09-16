@@ -5,31 +5,38 @@
 
 ## 現在の TODO
 
-- [x] common（ヘッダー・フッター・共通レイアウト）
+- [x] Google Cloud 準備
 
-  - [x] Header コンポーネントを作成
-  - [x] Footer コンポーネントを作成
+  - [x] プロジェクト作成
+  - [x] Maps JavaScript API 有効化
+  - [x] API キー発行・制限（リファラ/IP 制限）
 
-- [ ] search（検索・地図・検索結果リスト等）
+- [ ] Next.js で Google Map 表示
 
-  - [x] SearchForm（検索条件フォーム）
-    - [x] AddressInput（エリア名・駅名・住所入力欄）
-    - [x] CurrentLocationToggle（現在地から検索トグル）
-    - [x] SaltFilter（塩分量フィルタ：数値入力＋スライダー・単一値指定）
-    - [x] SearchButton（検索ボタン）
-    - [x] ResetButton（リセットボタン・任意）
-  - [x] MapView（地図・ピン表示）
-    - [x] MapView（地図本体コンポーネント）
-    - [x] Marker（ピン表示、店舗リストを map して描画）
-    - [x] InfoWindow（ピン選択時の情報表示・任意）
-  - [x] SearchResultList（検索結果リスト）
-    - [x] SearchResultList（リスト本体・全体ラッパー）
-    - [x] SearchResultItem（店舗ごとのリスト項目）
+  - [ ] API キーを.env 管理
+  - [ ] @react-google-maps/api 等で地図を表示
 
-- [ ] store（店舗リスト・店舗詳細）
+- [ ] 仮データで店舗マーカー表示
 
-- [ ] menu（メニュー一覧・カード）
+  - [ ] 仮の店舗リスト（店名・住所・緯度経度）でマーカー表示
+  - [ ] マーカークリックで InfoWindow（店名・住所・仮メニュー）表示
 
-- [ ] コンポーネント単体テストの作成
+- [ ] UI/UX 検証・検索機能
 
-  - [ ] Jest や React Testing Library でテスト作成
+  - [ ] 検索ボックス・塩分量フィルタでマーカーを絞り込み
+  - [ ] UI/UX の改善
+
+- [ ] 本番データ・API 連携
+
+  - [ ] Google Places API で実店舗情報を取得
+  - [ ] 自前 DB 設計（チェーン・メニュー・栄養情報）
+  - [ ] DB と店舗情報の紐付け、API レスポンス設計
+
+- [ ] Google Map 上での連携表示
+
+  - [ ] 店舗ごとに該当メニューを表示
+  - [ ] マーカー・InfoWindow の最終調整
+
+- [ ] テスト・運用フロー整理
+  - [ ] 主要エリアでの検索・表示テスト
+  - [ ] データ更新・新メニュー追加時の運用フロー整理
