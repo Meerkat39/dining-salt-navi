@@ -1,4 +1,5 @@
 import type { Store } from "@/types/store";
+import { Marker as GoogleMapsMarker } from "@react-google-maps/api";
 import React from "react";
 
 /**
@@ -9,14 +10,16 @@ import React from "react";
  */
 type MarkerProps = {
   store: Store;
+  onClick?: () => void;
 };
 
-const Marker: React.FC<MarkerProps> = ({ store }) => {
-  // Google MapsのMarker実装は後で追加
+const Marker: React.FC<MarkerProps> = ({ store, onClick }) => {
   return (
-    <div className="absolute text-red-500" style={{ left: 0, top: 0 }}>
-      📍 {store.name}
-    </div>
+    <GoogleMapsMarker
+      position={{ lat: store.lat, lng: store.lng }}
+      title={store.name}
+      onClick={onClick}
+    />
   );
 };
 

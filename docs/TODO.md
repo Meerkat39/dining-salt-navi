@@ -11,25 +11,33 @@
   - [x] Maps JavaScript API 有効化
   - [x] API キー発行・制限（リファラ/IP 制限）
 
-- [ ] Next.js で Google Map 表示
+- [x] Next.js で Google Map 表示
 
-  - [ ] API キーを.env 管理
-  - [ ] @react-google-maps/api 等で地図を表示
+  - [x] API キーを.env 管理
+  - [x] @react-google-maps/api 等で地図を表示
 
-- [ ] 仮データで店舗マーカー表示
+- [x] 仮データで店舗マーカー表示
 
-  - [ ] 仮の店舗リスト（店名・住所・緯度経度）でマーカー表示
-  - [ ] マーカークリックで InfoWindow（店名・住所・仮メニュー）表示
+  - [x] 仮データ（chains, stores, menus 型）作成
+  - [x] 仮データ配置（適切なディレクトリ・ファイル分割）
+  - [x] 仮の店舗リスト（店名・住所・緯度経度）でマーカー表示
+  - [x] マーカークリックで InfoWindow（店名・住所・仮メニュー）表示
 
-- [ ] UI/UX 検証・検索機能
+- [ ] 検索・絞り込み機能
 
-  - [ ] 検索ボックス・塩分量フィルタでマーカーを絞り込み
-  - [ ] UI/UX の改善
+  - [ ] 検索機能（店名・キーワードで絞り込み）
+  - [ ] 現在地から検索（現在地取得・近隣店舗表示）
+  - [ ] 塩分量フィルタ（指定値以下のメニュー・店舗のみ表示）
+
+- [ ] 検索結果リストと地図の連携
+
+  - [ ] リスト項目クリックで地図ピンにフォーカス（InfoWindow 表示・ズーム）
+  - [ ] 地図ピン選択でリスト項目をハイライト
 
 - [ ] 本番データ・API 連携
 
   - [ ] Google Places API で実店舗情報を取得
-  - [ ] 自前 DB 設計（チェーン・メニュー・栄養情報）
+  - [ ] 自前 DB 設計（chains: id, name／stores: id, chain_id, name, lat, lng／menus: id, store_id, name, salt, price, created_at, updated_at）
   - [ ] DB と店舗情報の紐付け、API レスポンス設計
 
 - [ ] Google Map 上での連携表示

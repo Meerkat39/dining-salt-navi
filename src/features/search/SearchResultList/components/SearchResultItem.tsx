@@ -14,7 +14,9 @@ const SearchResultItem: React.FC<SearchResultItemProps> = ({ store }) => {
   return (
     <div className="flex flex-col gap-1 p-4 hover:bg-gray-50 cursor-pointer">
       <div className="font-bold text-base">{store.name}</div>
-      <div className="text-sm text-gray-600">{store.address}</div>
+      <div className="text-sm text-gray-600">
+        緯度: {store.lat}, 経度: {store.lng}
+      </div>
     </div>
   );
 };

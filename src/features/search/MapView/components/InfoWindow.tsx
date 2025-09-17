@@ -18,8 +18,8 @@ const InfoWindow: React.FC<InfoWindowProps> = ({ store, onClose }) => {
   return (
     <div className="absolute bg-white border rounded shadow p-2 text-xs left-8 top-0 z-10">
       <div className="font-bold mb-1">{store.name}</div>
-      <div>塩分量: {store.salt}g</div>
-      <div>住所: {store.address}</div>
+      <div>緯度: {store.lat}</div>
+      <div>経度: {store.lng}</div>
       {onClose && (
         <button className="text-blue-500 mt-1" onClick={onClose}>
           閉じる
