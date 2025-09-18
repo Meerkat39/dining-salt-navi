@@ -1,7 +1,7 @@
 // メニュー情報型
 export type Menu = {
   id: string;
-  store_id: string;
+  chain_id: string;
   name: string;
   salt: number;
   price: number;
