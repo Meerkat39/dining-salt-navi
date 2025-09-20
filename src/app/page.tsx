@@ -6,6 +6,7 @@ import SearchForm from "@/features/search/SearchForm/components/SearchForm";
 import SearchResultList from "@/features/search/SearchResultList/components/SearchResultList";
 import { useCurrentLocationSearch } from "@/hooks/useCurrentLocationSearch";
 import { useFilteredStoresMenus } from "@/hooks/useFilteredStoresMenus";
+import { useSelectedStoreId } from "@/hooks/useSelectedStoreId";
 import { useState } from "react";
 
 export default function Home() {
@@ -27,6 +28,9 @@ export default function Home() {
     keyword,
     saltValue
   );
+  // 検索結果リスト・地図連携用：選択店舗ID
+  const { selectedStoreId, setSelectedStoreId, handleStoreItemClick } =
+    useSelectedStoreId();
 
   return (
     <main className="p-4 flex flex-col gap-8">
@@ -40,10 +44,20 @@ export default function Home() {
         saltValue={saltValue}
         setSaltValue={setSaltValue}
       />
-      {/* MapView：絞り込まれた店舗・メニュー・現在地座標を渡して地図表示 */}
-      <MapView stores={filteredStores} menus={filteredMenus} center={center} />
-      {/* 検索結果リスト：絞り込まれた店舗一覧をリスト表示 */}
-      <SearchResultList stores={filteredStores} />
+      {/* MapView：絞り込まれた店舗・メニュー・現在地座標・選択店舗IDを渡して地図表示 */}
+      <MapView
+        stores={filteredStores}
+        menus={filteredMenus}
+        center={center}
+        selectedStoreId={selectedStoreId}
+        setSelectedStoreId={setSelectedStoreId}
+      />
+      {/* 検索結果リスト：絞り込まれた店舗一覧をリスト表示＋項目クリックで選択ID更新 */}
+      <SearchResultList
+        stores={filteredStores}
+        onStoreItemClick={handleStoreItemClick}
+        selectedStoreId={selectedStoreId}
+      />
     </main>
   );
 }
