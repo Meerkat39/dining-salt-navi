@@ -1,6 +1,8 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
+import React from "react";
 import SearchForm from "../components/SearchForm";
+window.alert = jest.fn();
 
 describe("SearchForm", () => {
   const defaultProps = {
@@ -21,8 +23,10 @@ describe("SearchForm", () => {
     ).toBeInTheDocument();
     // 検索ボタン（ラベル完全一致）
     expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
-    // 現在地トグル（label要素のtextで取得）
-    expect(screen.getByLabelText("現在地から検索")).toBeInTheDocument();
+    // 現在地トグル（ボタンラベルで取得）
+    expect(
+      screen.getByRole("button", { name: /現在地から検索/ })
+    ).toBeInTheDocument();
     // 塩分量フィルタ（SaltFilter: spinbuttonで取得）
     expect(
       screen.getByRole("spinbutton", { name: /塩分量/ })
@@ -32,8 +36,19 @@ describe("SearchForm", () => {
   });
 
   it("現在地トグルONでキーワード入力欄が無効化される", () => {
-    render(<SearchForm {...defaultProps} />);
-    const toggle = screen.getByLabelText("現在地から検索");
+    // useStateで現在地トグル状態を制御
+    const Wrapper = () => {
+      const [useCurrentLocation, setUseCurrentLocation] = React.useState(false);
+      return (
+        <SearchForm
+          {...defaultProps}
+          useCurrentLocation={useCurrentLocation}
+          setUseCurrentLocation={setUseCurrentLocation}
+        />
+      );
+    };
+    render(<Wrapper />);
+    const toggle = screen.getByRole("button", { name: /現在地から検索/ });
     fireEvent.click(toggle);
     // キーワード入力欄がdisabledになる
     expect(
@@ -42,7 +57,18 @@ describe("SearchForm", () => {
   });
 
   it("キーワード入力欄に値を入力すると反映される", () => {
-    render(<SearchForm {...defaultProps} />);
+    // 入力値をuseStateで制御
+    const Wrapper = () => {
+      const [keyword, setKeyword] = React.useState("");
+      return (
+        <SearchForm
+          {...defaultProps}
+          keyword={keyword}
+          setKeyword={setKeyword}
+        />
+      );
+    };
+    render(<Wrapper />);
     const input = screen.getByPlaceholderText("店舗名・メニュー名・住所など");
     fireEvent.change(input, { target: { value: "新宿" } });
     expect(input).toHaveValue("新宿");

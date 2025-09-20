@@ -43,6 +43,7 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           disabled={disabled}
+          aria-label="塩分量"
         />
         {/* スライダー（直感的にg数を調整） */}
         <input
@@ -54,6 +55,7 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           disabled={disabled}
+          aria-label="塩分量"
         />
         {/* 単位表示 */}
         <span className="text-xs text-gray-500">g</span>

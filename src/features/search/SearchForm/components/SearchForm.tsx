@@ -51,7 +51,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
       <div className="flex flex-row gap-2 items-end">
         <div className="flex-1">
           {/* キーワード入力欄（店名・料理名で検索） */}
-          <KeywordInput value={keyword} onChange={setKeyword} />
+          <KeywordInput
+            value={keyword}
+            onChange={setKeyword}
+            disabled={useCurrentLocation}
+          />
         </div>
         <div className="flex-shrink-0">
           {/* 検索ボタン：入力内容で検索を実行 */}
