@@ -1,29 +1,27 @@
 "use client";
 import React from "react";
+import { useGeolocationEffect } from "../hooks/useGeolocationEffect";
 import CurrentLocationButton from "./CurrentLocationSearchButton";
+import KeywordInput from "./KeywordInput";
 import SaltFilter from "./SaltFilter";
 import SearchButton from "./SearchButton";
 
 /**
  * 検索条件フォーム（SearchForm）
- * - エリア名・駅名・住所入力、現在地から検索トグル、塩分量フィルタ、検索ボタンで構成
- * - 各子コンポーネントに状態・propsを分割して管理
- * - UI設計・UX要件に基づき、状態連携・無効化制御も実装
- */
-
-/**
- * SearchFormProps
- * @param keyword 検索キーワード
- * @param setKeyword キーワード更新関数
- * @param onCurrentLocationChange 現在地取得時のコールバック（lat/lngを親に渡す）
- */
-/**
- * SearchFormProps
- * @param keyword 検索キーワード
- * @param setKeyword キーワード更新関数
- * @param onCurrentLocationChange 現在地取得時のコールバック（lat/lngを親に渡す）
- * @param useCurrentLocation 現在地検索ON/OFF状態（親から受け取る）
- * @param setUseCurrentLocation 現在地検索ON/OFF切り替え関数（親から受け取る）
+ * - 店名・料理名キーワード入力
+ * - 現在地から検索トグル
+ * - 塩分量フィルタ
+ * - 検索ボタン
+ * 各種状態・操作関数は親からpropsで受け取る
+ *
+ * @typedef {Object} SearchFormProps
+ * @property {string} keyword - 検索キーワード（店名・料理名など）
+ * @property {(value: string) => void} setKeyword - キーワード更新関数
+ * @property {(lat: number, lng: number) => void} [onCurrentLocationChange] - 現在地取得時のコールバック（lat/lngを親に渡す）
+ * @property {boolean} useCurrentLocation - 現在地検索ON/OFF状態
+ * @property {(checked: boolean) => void} setUseCurrentLocation - 現在地検索ON/OFF切り替え関数
+ * @property {number} saltValue - 塩分量フィルタ値（g単位）
+ * @property {(value: number) => void} setSaltValue - 塩分量フィルタ値の更新関数
  */
 type SearchFormProps = {
   keyword: string;
@@ -44,26 +42,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   saltValue,
   setSaltValue,
 }) => {
-  // 現在地取得処理
-  React.useEffect(() => {
-    if (useCurrentLocation) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const { latitude, longitude } = pos.coords;
-            if (onCurrentLocationChange) {
-              onCurrentLocationChange(latitude, longitude);
-            }
-          },
-          (err) => {
-            alert("現在地の取得に失敗しました: " + err.message);
-          }
-        );
-      } else {
-        alert("この端末・ブラウザは現在地取得に対応していません。");
-      }
-    }
-  }, [useCurrentLocation, onCurrentLocationChange]);
+  // 現在地検索ON時にブラウザの位置情報APIで緯度・経度を取得し、親に通知する
+  useGeolocationEffect(useCurrentLocation, onCurrentLocationChange);
 
   return (
     <form className="flex flex-col gap-4 w-full max-w-3xl mx-auto p-4 bg-white rounded shadow">
@@ -71,15 +51,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
       <div className="flex flex-row gap-2 items-end">
         <div className="flex-1">
           {/* キーワード入力欄（店名・料理名で検索） */}
-          <input
-            type="text"
-            className="w-full border rounded px-2 py-1"
-            placeholder="店名・料理名で検索"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-          />
+          <KeywordInput value={keyword} onChange={setKeyword} />
         </div>
         <div className="flex-shrink-0">
+          {/* 検索ボタン：入力内容で検索を実行 */}
           <SearchButton />
         </div>
       </div>

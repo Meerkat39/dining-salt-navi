@@ -30,8 +30,10 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
 }) => {
   return (
     <div className="flex-1 flex flex-col gap-2">
+      {/* ラベル表示 */}
       <label className="block text-sm font-medium mb-1">塩分量（g）</label>
       <div className="flex items-center gap-2">
+        {/* 数値入力欄（直接g数を入力） */}
         <input
           type="number"
           className="w-20 border rounded px-2 py-1"
@@ -42,6 +44,7 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
           onChange={(e) => onChange(Number(e.target.value))}
           disabled={disabled}
         />
+        {/* スライダー（直感的にg数を調整） */}
         <input
           type="range"
           className="flex-1 accent-blue-600"
@@ -52,6 +55,7 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
           onChange={(e) => onChange(Number(e.target.value))}
           disabled={disabled}
         />
+        {/* 単位表示 */}
         <span className="text-xs text-gray-500">g</span>
       </div>
     </div>

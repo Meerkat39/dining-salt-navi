@@ -1,5 +1,6 @@
 import type { Store } from "@/types/store";
 import React from "react";
+import NoSearchResult from "./NoSearchResult";
 import SearchResultItem from "./SearchResultItem";
 
 /**
@@ -14,12 +15,10 @@ type SearchResultListProps = {
 
 const SearchResultList: React.FC<SearchResultListProps> = ({ stores }) => {
   if (stores.length === 0) {
-    return (
-      <div className="w-full max-w-xl mx-auto p-4 text-center text-gray-500 border rounded bg-white shadow">
-        検索結果がありません
-      </div>
-    );
+    return <NoSearchResult />;
   }
+
+  // 検索結果リスト本体（店舗ごとにSearchResultItemを表示）
   return (
     <div className="w-full max-w-xl mx-auto bg-white rounded shadow divide-y">
       {stores.map((store) => (
