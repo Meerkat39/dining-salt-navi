@@ -25,8 +25,14 @@ export async function GET(request: Request) {
     chain_id: m.chain_id,
     name: m.name,
     salt: m.salt,
-    created_at: m.created_at.toISOString(),
-    updated_at: m.updated_at.toISOString(),
+    created_at:
+      typeof m.created_at === "string"
+        ? m.created_at
+        : m.created_at.toISOString(),
+    updated_at:
+      typeof m.updated_at === "string"
+        ? m.updated_at
+        : m.updated_at.toISOString(),
   }));
   return NextResponse.json(result);
 }
