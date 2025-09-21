@@ -36,16 +36,16 @@
   - [x] リスト項目クリックで地図ピンにフォーカス（InfoWindow 表示・ズーム）
   - [x] 地図ピン選択でリスト項目をハイライト
 
-- [ ] 本番データ・API 連携
+- [x] 本番データ・API 連携
 
-  - [ ] Google Places API で実店舗情報を取得
-  - [ ] 自前 DB 設計（chains: id, name／stores: id, chain_id, name, lat, lng／menus: id, store_id, name, salt, price, created_at, updated_at）
-  - [ ] DB と店舗情報の紐付け、API レスポンス設計
+  - [x] Google Places API で実店舗情報を取得
+  - [x] 自前 DB 設計（chains: id, name／stores: id, chain_id, name, lat, lng／menus: id, store_id, name, salt, price, created_at, updated_at）
+  - [x] DB と店舗情報の紐付け、API レスポンス設計
 
-- [ ] Google Map 上での連携表示
+- [x] Google Map 上での連携表示
 
-  - [ ] 店舗ごとに該当メニューを表示
-  - [ ] マーカー・InfoWindow の最終調整
+  - [x] 店舗ごとに該当メニューを表示
+  - [x] マーカー・InfoWindow の最終調整
 
 - [ ] テスト前に UI/UX の改善
 

@@ -4,7 +4,6 @@ export type Menu = {
   chain_id: string;
   name: string;
   salt: number;
-  price: number;
-  created_at: string; // ISO文字列
-  updated_at: string; // ISO文字列
+  created_at: string;
+  updated_at: string;
 };

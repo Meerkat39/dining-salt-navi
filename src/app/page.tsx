@@ -1,11 +1,9 @@
 "use client";
-import { menus } from "@/features/search/data/menus.mock";
-import { stores } from "@/features/search/data/stores.mock";
 import MapView from "@/features/search/MapView/components/MapView";
 import SearchForm from "@/features/search/SearchForm/components/SearchForm";
 import SearchResultList from "@/features/search/SearchResultList/components/SearchResultList";
 import { useCurrentLocationSearch } from "@/hooks/useCurrentLocationSearch";
-import { useFilteredStoresMenus } from "@/hooks/useFilteredStoresMenus";
+import { useFilteredStores } from "@/hooks/useFilteredStores";
 import { useSelectedStoreId } from "@/hooks/useSelectedStoreId";
 import { useState } from "react";
 
@@ -21,13 +19,8 @@ export default function Home() {
     center,
     handleCurrentLocationChange,
   } = useCurrentLocationSearch();
-  // 検索キーワード・塩分量で店舗・メニューを絞り込む
-  const { filteredStores, filteredMenus } = useFilteredStoresMenus(
-    stores,
-    menus,
-    keyword,
-    saltValue
-  );
+  // 塩分量で店舗を絞り込む（DB/APIから自動取得）
+  const filteredStores = useFilteredStores(saltValue);
   // 検索結果リスト・地図連携用：選択店舗ID
   const { selectedStoreId, setSelectedStoreId, handleStoreItemClick } =
     useSelectedStoreId();
@@ -44,13 +37,13 @@ export default function Home() {
         saltValue={saltValue}
         setSaltValue={setSaltValue}
       />
-      {/* MapView：絞り込まれた店舗・メニュー・現在地座標・選択店舗IDを渡して地図表示 */}
+      {/* MapView：絞り込まれた店舗・現在地座標・選択店舗ID・塩分量フィルタを渡して地図表示 */}
       <MapView
-        stores={filteredStores}
-        menus={filteredMenus}
+        filteredStores={filteredStores}
         center={center}
         selectedStoreId={selectedStoreId}
         setSelectedStoreId={setSelectedStoreId}
+        saltValue={saltValue}
       />
       {/* 検索結果リスト：絞り込まれた店舗一覧をリスト表示＋項目クリックで選択ID更新 */}
       <SearchResultList
