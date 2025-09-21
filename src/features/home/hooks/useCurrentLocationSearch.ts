@@ -2,12 +2,12 @@ import { useCallback, useState } from "react";
 
 /**
  * 現在地取得・管理用カスタムフック
- * @returns {
+ * @returns {{
  *   useCurrentLocation: boolean,
  *   setUseCurrentLocation: (checked: boolean) => void,
  *   center: { lat: number; lng: number } | undefined,
  *   handleCurrentLocationChange: (lat: number, lng: number) => void
- * }
+ * }}
  */
 export function useCurrentLocationSearch() {
   // 現在地取得ON/OFF状態

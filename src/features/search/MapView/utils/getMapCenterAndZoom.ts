@@ -7,11 +7,11 @@ import type { Store } from "@/types/store";
  *   選択店舗があればその座標・ズーム（16）を返す。
  *   なければデフォルト座標・ズームを返す。
  *
- * @param stores 店舗リスト（Store型配列）
- * @param selectedStoreId 選択中の店舗ID（string|null）
- * @param defaultCenter デフォルト中心座標（未選択時に使う）
- * @param defaultZoom デフォルトズーム値（未選択時に使う、初期値13）
- * @returns { center, zoom } - 地図中心座標・ズーム値オブジェクト
+ * @param {Store[]} stores 店舗リスト（Store型配列）
+ * @param {string|null} [selectedStoreId] 選択中の店舗ID（string|null）
+ * @param {{ lat: number; lng: number }} [defaultCenter] デフォルト中心座標（未選択時に使う）
+ * @param {number} [defaultZoom=13] デフォルトズーム値（未選択時に使う、初期値13）
+ * @returns {{ center: { lat: number; lng: number }, zoom: number }} 地図中心座標・ズーム値オブジェクト
  *   - center: { lat, lng }（選択店舗 or デフォルト）
  *   - zoom: number（選択店舗時は16、未選択時はdefaultZoom）
  */

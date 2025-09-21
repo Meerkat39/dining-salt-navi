@@ -5,7 +5,11 @@ import { useState } from "react";
  * 検索結果リスト・地図連携用：選択店舗IDの状態管理フック
  * - 選択店舗IDの状態と更新関数を提供
  * - リスト項目クリック時のハンドラも返却
- * @returns { selectedStoreId, setSelectedStoreId, handleStoreItemClick }
+ * @returns {{
+ *   selectedStoreId: string | null,
+ *   setSelectedStoreId: (id: string | null) => void,
+ *   handleStoreItemClick: (storeId: string) => void
+ * }}
  */
 export function useSelectedStoreId() {
   const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null);

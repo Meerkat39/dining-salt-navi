@@ -4,12 +4,12 @@ import React from "react";
  * 塩分量フィルタ（数値入力＋スライダー連動UI）。
  * - value/onChangeで親と状態連携
  * - min/max/step/disabledで入力制御
- * @param value 現在の塩分量（g）
- * @param onChange 値変更時のコールバック
- * @param min 最小値（デフォルト0）
- * @param max 最大値（デフォルト10）
- * @param step ステップ幅（デフォルト0.1）
- * @param disabled 入力不可フラグ
+ * @param {number} value 現在の塩分量（g）
+ * @param {(v: number) => void} onChange 値変更時のコールバック
+ * @param {number} [min] 最小値（デフォルト0）
+ * @param {number} [max] 最大値（デフォルト10）
+ * @param {number} [step] ステップ幅（デフォルト0.1）
+ * @param {boolean} [disabled] 入力不可フラグ
  */
 type SaltFilterProps = {
   value: number;

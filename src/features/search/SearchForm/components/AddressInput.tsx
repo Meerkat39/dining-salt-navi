@@ -3,9 +3,9 @@ import React from "react";
 /**
  * エリア名・駅名・住所のテキスト入力欄コンポーネント。
  * - 現在地検索ON時は入力不可（disabled=true）
- * @param disabled 入力不可フラグ（現在地検索ON時にtrue）
- * @param value 入力値
- * @param onChange 入力値変更時のコールバック
+ * @param {boolean} [disabled] 入力不可フラグ（現在地検索ON時にtrue）
+ * @param {string} value 入力値
+ * @param {(v: string) => void} onChange 入力値変更時のコールバック
  */
 const AddressInput: React.FC<{
   disabled?: boolean;

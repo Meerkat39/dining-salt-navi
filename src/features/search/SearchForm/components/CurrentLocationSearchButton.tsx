@@ -5,8 +5,8 @@ import React from "react";
  * 現在地から検索するためのON/OFFトグルボタン。
  * - ON時はvariant="default"、OFF時はvariant="outline"で表示
  * - ボタン幅はw-full、アイコン・ON表示付き
- * @param checked 現在地検索ON/OFF状態
- * @param onChange ON/OFF切り替え時のコールバック
+ * @param {boolean} checked 現在地検索ON/OFF状態
+ * @param {(checked: boolean) => void} onChange ON/OFF切り替え時のコールバック
  */
 const CurrentLocationSearchButton: React.FC<{
   checked: boolean;

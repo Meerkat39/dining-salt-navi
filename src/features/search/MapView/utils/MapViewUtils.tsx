@@ -13,8 +13,8 @@ const DEFAULT_CENTER = { lat: 35.6895, lng: 139.6917 };
 /**
  * center管理用カスタムフック
  * center propsが渡された場合のみ地図中心座標を更新
- * @param center 地図の中心座標（lat/lng）
- * @returns 現在の地図中心座標
+ * @param {{ lat: number; lng: number }} [center] 地図の中心座標（lat/lng）
+ * @returns {{ lat: number; lng: number }} 現在の地図中心座標
  */
 export function useMapCenter(center?: { lat: number; lng: number }) {
   // 地図の中心座標state（初期値はDEFAULT_CENTER）

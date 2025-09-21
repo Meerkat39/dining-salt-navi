@@ -19,7 +19,7 @@ describe("SearchForm", () => {
     render(<SearchForm {...defaultProps} />);
     // キーワード入力欄（KeywordInputコンポーネント）
     expect(
-      screen.getByPlaceholderText("店舗名・メニュー名・住所など")
+      screen.getByPlaceholderText("エリア名・地名・駅名など")
     ).toBeInTheDocument();
     // 検索ボタン（ラベル完全一致）
     expect(screen.getByRole("button", { name: "検索" })).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe("SearchForm", () => {
     fireEvent.click(toggle);
     // キーワード入力欄がdisabledになる
     expect(
-      screen.getByPlaceholderText("店舗名・メニュー名・住所など")
+      screen.getByPlaceholderText("エリア名・地名・駅名など")
     ).toBeDisabled();
   });
 
@@ -69,7 +69,7 @@ describe("SearchForm", () => {
       );
     };
     render(<Wrapper />);
-    const input = screen.getByPlaceholderText("店舗名・メニュー名・住所など");
+    const input = screen.getByPlaceholderText("エリア名・地名・駅名など");
     fireEvent.change(input, { target: { value: "新宿" } });
     expect(input).toHaveValue("新宿");
   });

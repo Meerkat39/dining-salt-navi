@@ -2,9 +2,9 @@
 import MapView from "@/features/search/MapView/components/MapView";
 import SearchForm from "@/features/search/SearchForm/components/SearchForm";
 import SearchResultList from "@/features/search/SearchResultList/components/SearchResultList";
-import { useCurrentLocationSearch } from "@/hooks/useCurrentLocationSearch";
-import { useFilteredStores } from "@/hooks/useFilteredStores";
-import { useSelectedStoreId } from "@/hooks/useSelectedStoreId";
+import { useCurrentLocationSearch } from "@/features/home/hooks/useCurrentLocationSearch";
+import { useFilteredStores } from "@/features/home/hooks/useFilteredStores";
+import { useSelectedStoreId } from "@/features/home/hooks/useSelectedStoreId";
 import { useState } from "react";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
     center,
     handleCurrentLocationChange,
   } = useCurrentLocationSearch();
-  // 塩分量で店舗を絞り込む（DB/APIから自動取得）
+  // 塩分量で店舗を絞り込む
   const filteredStores = useFilteredStores(saltValue);
   // 検索結果リスト・地図連携用：選択店舗ID
   const { selectedStoreId, setSelectedStoreId, handleStoreItemClick } =

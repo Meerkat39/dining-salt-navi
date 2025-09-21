@@ -2,8 +2,8 @@ import { useEffect } from "react";
 
 /**
  * 現在地取得の副作用を管理するカスタムフック
- * @param useCurrentLocation - 現在地取得ON/OFF
- * @param onCurrentLocationChange - 取得成功時のコールバック（lat, lng）
+ * @param {boolean} useCurrentLocation 現在地取得ON/OFF
+ * @param {(lat: number, lng: number) => void} [onCurrentLocationChange] 取得成功時のコールバック（lat, lng）
  */
 export function useGeolocationEffect(
   useCurrentLocation: boolean,

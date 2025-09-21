@@ -13,12 +13,17 @@ import { getMapCenterAndZoom } from "../utils/getMapCenterAndZoom";
 import { StoreMarkerWithInfoWindow } from "./StoreMarkerWithInfoWindow";
 
 /**
- * 店舗・メニュー地図表示（MapView）
- * - filteredStores: 絞り込まれた店舗リスト（Store[]）
- * - center: 地図の中心座標（現在地検索時のみ指定、未指定時はデフォルト）
- * - selectedStoreId: 選択中の店舗ID（InfoWindow表示・地図ズーム用）
- * - setSelectedStoreId: 選択店舗IDの更新関数（ピン/リスト連携用）
- * - saltValue: 塩分量フィルタ値（g単位）
+ * 店舗・メニュー地図表示コンポーネント
+ *
+ * @param {Object} props - プロパティ
+ * @param {Store[]} props.filteredStores - 絞り込まれた店舗リスト（塩分量・エリアでフィルタ済み）
+ * @param {{ lat: number; lng: number }=} props.center - 地図の中心座標（エリア検索・現在地検索時に指定）
+ * @param {string=} props.selectedStoreId - 選択中の店舗ID（InfoWindow表示・地図ズーム用）
+ * @param {function=} props.setSelectedStoreId - 選択店舗IDの更新関数（ピン/リスト連携用）
+ * @param {number} props.saltValue - 塩分量フィルタ値（g単位、スライダー連動）
+ *
+ * 地図上に店舗マーカーとInfoWindowを表示し、エリア検索時はcenterで地図中心を切り替える。
+ * filteredStoresは塩分量・エリアで動的に変化する。
  */
 import type { Store } from "@/types/store";
 type MapViewProps = {

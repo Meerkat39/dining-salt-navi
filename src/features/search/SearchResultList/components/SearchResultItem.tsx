@@ -6,8 +6,8 @@ import React from "react";
  * - 店舗名・住所をシンプルに表示
  * - isSelected=trueの場合はハイライト（青背景）
  *
- * @param store 店舗情報（Store型）
- * @param isSelected 選択状態（地図ピン連携・ハイライト用、任意）
+ * @param {Store} store 店舗情報（Store型）
+ * @param {boolean} [isSelected] 選択状態（地図ピン連携・ハイライト用、任意）
  */
 type SearchResultItemProps = {
   store: Store;

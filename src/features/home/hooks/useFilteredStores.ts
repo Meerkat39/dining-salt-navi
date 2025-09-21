@@ -3,8 +3,8 @@ import type { Store } from "@/types/store";
 
 /**
  * 店舗リストを塩分量で絞り込むカスタムフック
- * @param saltValue 塩分量フィルタ（g単位）
- * @returns filteredStores: Store[] 絞り込まれた店舗リスト
+ * @param {number} saltValue 塩分量フィルタ（g単位）
+ * @returns {Store[]} filteredStores 絞り込まれた店舗リスト
  *
  * DB/APIからstores・menusを非同期取得し、塩分量で絞り込む
  */

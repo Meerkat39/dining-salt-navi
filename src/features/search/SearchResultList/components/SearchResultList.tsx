@@ -10,9 +10,9 @@ import SearchResultItem from "./SearchResultItem";
  * - 項目クリック時にonStoreItemClickコールバックで選択IDを親へ通知
  * - selectedStoreIdで選択項目をハイライト（地図ピン連携）
  *
- * @param stores 店舗リスト配列（Store型）
- * @param onStoreItemClick 項目クリック時のコールバック（選択ID通知用、任意）
- * @param selectedStoreId 選択中の店舗ID（ハイライト・地図連携用、任意）
+ * @param {Store[]} stores 店舗リスト配列（Store型）
+ * @param {(storeId: string) => void} [onStoreItemClick] 項目クリック時のコールバック（選択ID通知用、任意）
+ * @param {string|null} [selectedStoreId] 選択中の店舗ID（ハイライト・地図連携用、任意）
  */
 type SearchResultListProps = {
   stores: Store[];
