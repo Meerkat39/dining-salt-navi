@@ -1,4 +1,5 @@
-import { Menu, PrismaClient } from "@prisma/client";
+import type { Menu } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
