@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Menu, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
     where: { chain_id },
     orderBy: { salt: "asc" },
   });
-  const result = menus.map((m) => ({
+  const result = menus.map((m: Menu) => ({
     id: m.id,
     chain_id: m.chain_id,
     name: m.name,
