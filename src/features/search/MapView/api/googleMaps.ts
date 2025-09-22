@@ -1,6 +1,8 @@
 /**
  * Google Maps APIラッパー（地図表示用）
- * - 今後、Places APIやGeocoding APIなどもここに追加可能
+ * - 地図表示のみはリファラ制限付きAPIキーでOK
+ * - Places APIやGeocoding APIなど「データ取得系」は必ずサーバー経由で！
+ *   （APIキー漏洩防止のため）
  */
 
 import { useJsApiLoader } from "@react-google-maps/api";

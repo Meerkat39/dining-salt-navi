@@ -37,7 +37,7 @@ if (!CHAIN_NAME) {
   );
   process.exit(1);
 }
-const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+const API_KEY = process.env.GOOGLE_MAPS_SERVER_KEY;
 const LOCATION = "35.681236,139.767125"; // 東京駅
 const RADIUS = 30000; // 30km
 const QUERY = CHAIN_NAME;

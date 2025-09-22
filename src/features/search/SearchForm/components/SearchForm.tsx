@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { useAreaGeocodeSearch } from "../hooks/useAreaGeocodeSearch";
 import { useGeolocationEffect } from "../hooks/useGeolocationEffect";
+import { useSearchWithLoading } from "../hooks/useSearchWithLoading";
 import AreaSearchInput from "./AreaSearchInput";
 import CurrentLocationButton from "./CurrentLocationSearchButton";
 import SaltFilter from "./SaltFilter";
@@ -45,15 +45,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setSaltValue,
   setCenter,
 }) => {
-  // 現在地検索ON時にブラウザの位置情報APIで緯度・経度を取得し、親に通知する
   useGeolocationEffect(useCurrentLocation, onCurrentLocationChange);
 
-  // エリア名検索用フック（Geocoding & center更新）
-  const handleSearch = useAreaGeocodeSearch(
+  // 検索ボタンのロジックをカスタムフックに委譲
+  const { isSearching, handleSearch } = useSearchWithLoading({
     areaName,
     useCurrentLocation,
-    setCenter
-  );
+    setCenter,
+  });
 
   return (
     <form
@@ -72,7 +71,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
         <div className="flex-shrink-0">
           {/* 検索ボタン：入力内容で検索を実行 */}
-          <SearchButton />
+          <SearchButton disabled={isSearching} />
         </div>
       </div>
 
