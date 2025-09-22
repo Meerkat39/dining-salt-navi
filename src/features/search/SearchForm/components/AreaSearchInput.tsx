@@ -1,18 +1,18 @@
 import React from "react";
 
 /**
- * キーワード入力欄（店名・料理名で検索）
+ * エリア検索入力欄（地名・住所・駅名で検索）
  * @param {string} value 入力値
  * @param {(value: string) => void} onChange 入力値変更時のコールバック
  * @param {boolean} [disabled] 入力不可フラグ（任意）
  */
-export type KeywordInputProps = {
+export type AreaSearchInputProps = {
   value: string;
   onChange: (value: string) => void;
   disabled?: boolean;
 };
 
-const KeywordInput: React.FC<KeywordInputProps> = ({
+const AreaSearchInput: React.FC<AreaSearchInputProps> = ({
   value,
   onChange,
   disabled,
@@ -21,7 +21,7 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
     <input
       type="text"
       className="w-full border rounded px-2 py-1"
-      placeholder="エリア名・地名・駅名など"
+      placeholder="エリア名（例：渋谷区、東京駅など）"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
@@ -29,4 +29,4 @@ const KeywordInput: React.FC<KeywordInputProps> = ({
   );
 };
 
-export default KeywordInput;
+export default AreaSearchInput;

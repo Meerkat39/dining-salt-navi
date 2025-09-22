@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import KeywordInput from "../components/KeywordInput";
+import KeywordInput from "../components/AreaSearchInput";
 
 describe("KeywordInput", () => {
   it("入力値が表示される", () => {

@@ -1,15 +1,15 @@
 "use client";
-import MapView from "@/features/search/MapView/components/MapView";
-import SearchForm from "@/features/search/SearchForm/components/SearchForm";
-import SearchResultList from "@/features/search/SearchResultList/components/SearchResultList";
 import { useCurrentLocationSearch } from "@/features/home/hooks/useCurrentLocationSearch";
 import { useFilteredStores } from "@/features/home/hooks/useFilteredStores";
 import { useSelectedStoreId } from "@/features/home/hooks/useSelectedStoreId";
+import MapView from "@/features/search/MapView/components/MapView";
+import SearchForm from "@/features/search/SearchForm/components/SearchForm";
+import SearchResultList from "@/features/search/SearchResultList/components/SearchResultList";
 import { useState } from "react";
 
 export default function Home() {
-  // 検索キーワード（店名・料理名など）
-  const [keyword, setKeyword] = useState("");
+  // エリア名（地名・住所・駅名など）
+  const [areaName, setAreaName] = useState("");
   // 塩分量フィルタの指定値（g単位、初期値2.5g）
   const [saltValue, setSaltValue] = useState(2.5);
   // 現在地取得の状態・座標・コールバックをまとめて管理
@@ -18,6 +18,7 @@ export default function Home() {
     setUseCurrentLocation,
     center,
     handleCurrentLocationChange,
+    setCenter,
   } = useCurrentLocationSearch();
   // 塩分量で店舗を絞り込む
   const filteredStores = useFilteredStores(saltValue);
@@ -29,13 +30,14 @@ export default function Home() {
     <main className="p-4 flex flex-col gap-8">
       {/* 検索フォーム：キーワード・塩分量・現在地取得の状態と操作関数を渡す */}
       <SearchForm
-        keyword={keyword}
-        setKeyword={setKeyword}
+        areaName={areaName}
+        setAreaName={setAreaName}
         onCurrentLocationChange={handleCurrentLocationChange}
         useCurrentLocation={useCurrentLocation}
         setUseCurrentLocation={setUseCurrentLocation}
         saltValue={saltValue}
         setSaltValue={setSaltValue}
+        setCenter={setCenter}
       />
       {/* MapView：絞り込まれた店舗・現在地座標・選択店舗ID・塩分量フィルタを渡して地図表示 */}
       <MapView

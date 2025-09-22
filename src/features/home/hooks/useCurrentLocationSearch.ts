@@ -41,5 +41,6 @@ export function useCurrentLocationSearch() {
     setUseCurrentLocation,
     center,
     handleCurrentLocationChange,
+    setCenter,
   };
 }

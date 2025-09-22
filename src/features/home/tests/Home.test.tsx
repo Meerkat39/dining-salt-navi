@@ -17,7 +17,7 @@ describe("Homeページ", () => {
   it("初期状態でキーワード・塩分量・現在地取得UIが表示される", () => {
     render(<Home />);
     expect(
-      screen.getByPlaceholderText("エリア名・地名・駅名など")
+      screen.getByPlaceholderText("エリア名（例：渋谷区、東京駅など）")
     ).toBeInTheDocument();
     const saltInputs = screen.getAllByLabelText("塩分量");
     expect(saltInputs.length).toBeGreaterThanOrEqual(2);

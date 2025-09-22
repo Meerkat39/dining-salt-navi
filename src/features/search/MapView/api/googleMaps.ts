@@ -8,6 +8,7 @@ import { useJsApiLoader } from "@react-google-maps/api";
 export function useGoogleMapsLoader() {
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    language: "ja",
   });
   return { isLoaded, loadError };
 }
