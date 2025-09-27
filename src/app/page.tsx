@@ -27,32 +27,41 @@ export default function Home() {
     useSelectedStoreId();
 
   return (
-    <main className="p-4 flex flex-col gap-8">
-      {/* 検索フォーム：キーワード・塩分量・現在地取得の状態と操作関数を渡す */}
-      <SearchForm
-        areaName={areaName}
-        setAreaName={setAreaName}
-        onCurrentLocationChange={handleCurrentLocationChange}
-        useCurrentLocation={useCurrentLocation}
-        setUseCurrentLocation={setUseCurrentLocation}
-        saltValue={saltValue}
-        setSaltValue={setSaltValue}
-        setCenter={setCenter}
-      />
-      {/* MapView：絞り込まれた店舗・現在地座標・選択店舗ID・塩分量フィルタを渡して地図表示 */}
-      <MapView
-        filteredStores={filteredStores}
-        center={center}
-        selectedStoreId={selectedStoreId}
-        setSelectedStoreId={setSelectedStoreId}
-        saltValue={saltValue}
-      />
-      {/* 検索結果リスト：絞り込まれた店舗一覧をリスト表示＋項目クリックで選択ID更新 */}
-      <SearchResultList
-        stores={filteredStores}
-        onStoreItemClick={handleStoreItemClick}
-        selectedStoreId={selectedStoreId}
-      />
+    <main className="p-4 flex flex-col items-center gap-8">
+      {/* 検索フォーム（幅をデュアルペインと揃える） */}
+      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto">
+        <SearchForm
+          areaName={areaName}
+          setAreaName={setAreaName}
+          onCurrentLocationChange={handleCurrentLocationChange}
+          useCurrentLocation={useCurrentLocation}
+          setUseCurrentLocation={setUseCurrentLocation}
+          saltValue={saltValue}
+          setSaltValue={setSaltValue}
+          setCenter={setCenter}
+        />
+      </div>
+      {/* デュアルペイン：MapView（左）＋SearchResultList（右） */}
+      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto flex flex-row gap-4 h-[70vh] min-h-[400px]">
+        <div className="w-3/5 h-full">
+          <div className="h-full">
+            <MapView
+              filteredStores={filteredStores}
+              center={center}
+              selectedStoreId={selectedStoreId}
+              setSelectedStoreId={setSelectedStoreId}
+              saltValue={saltValue}
+            />
+          </div>
+        </div>
+        <div className="w-2/5 h-full overflow-y-auto">
+          <SearchResultList
+            stores={filteredStores}
+            onStoreItemClick={handleStoreItemClick}
+            selectedStoreId={selectedStoreId}
+          />
+        </div>
+      </div>
     </main>
   );
 }

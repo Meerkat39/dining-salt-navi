@@ -56,7 +56,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   return (
     <form
-      className="flex flex-col gap-4 w-full max-w-3xl mx-auto p-4 bg-white rounded shadow"
+      className="flex flex-col gap-4 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1600px] mx-auto px-2 sm:px-4 md:px-8 p-4 bg-white rounded shadow"
       onSubmit={handleSearch}
     >
       {/* 住所や場所を入力＋検索ボタン 横並び */}

@@ -31,7 +31,7 @@ const SearchResultList: React.FC<SearchResultListProps> = ({
 
   // 検索結果リスト本体（店舗ごとにSearchResultItemを表示）
   return (
-    <div className="w-full max-w-xl mx-auto bg-white rounded shadow divide-y">
+    <div className="w-full bg-white rounded shadow divide-y">
       {stores.map((store) => (
         <div
           key={store.id}
