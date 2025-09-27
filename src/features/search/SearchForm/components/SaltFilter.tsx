@@ -31,7 +31,7 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
   return (
     <div className="flex-1 flex flex-col gap-2">
       {/* ラベル表示 */}
-      <label className="block text-sm font-medium mb-1">塩分量（g）</label>
+      <label className="block text-base font-medium mb-1">塩分量（g）</label>
       <div className="flex items-center gap-2">
         {/* 数値入力欄（直接g数を入力） */}
         <input
@@ -58,7 +58,7 @@ const SaltFilter: React.FC<SaltFilterProps> = ({
           aria-label="塩分量"
         />
         {/* 単位表示 */}
-        <span className="text-xs text-gray-500">g</span>
+        <span className="text-sm text-gray-500">g</span>
       </div>
     </div>
   );

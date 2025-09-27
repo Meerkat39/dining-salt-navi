@@ -27,9 +27,9 @@ const SearchResultItem: React.FC<SearchResultItemProps> = ({
       }`}
     >
       {/* 店舗名 */}
-      <div className="font-bold text-base">{store.name}</div>
+      <div className="font-bold text-lg">{store.name}</div>
       {/* 店舗の緯度・経度 */}
-      <div className="text-sm text-gray-600">
+      <div className="text-base text-gray-600">
         緯度: {store.lat}, 経度: {store.lng}
       </div>
     </div>

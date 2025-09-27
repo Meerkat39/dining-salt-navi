@@ -18,7 +18,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({ disabled }) => {
     <Button
       type="submit"
       variant="default"
-      className="w-full flex items-center gap-2 px-6"
+      className="w-full flex items-center gap-2 px-6 text-lg"
       disabled={disabled}
     >
       <Search className="size-4" aria-hidden="true" />

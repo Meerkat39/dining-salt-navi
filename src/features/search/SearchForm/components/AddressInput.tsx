@@ -14,7 +14,7 @@ const AddressInput: React.FC<{
 }> = ({ disabled, value, onChange }) => {
   return (
     <div className="flex-1">
-      <label className="block text-sm font-medium mb-1">
+      <label className="block text-base font-medium mb-1">
         エリア名・駅名・住所
       </label>
       <input

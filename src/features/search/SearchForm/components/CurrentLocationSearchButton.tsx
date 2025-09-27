@@ -18,13 +18,13 @@ const CurrentLocationSearchButton: React.FC<{
       variant={checked ? "default" : "outline"}
       onClick={() => onChange(!checked)}
       aria-pressed={checked}
-      className="w-full flex items-center gap-2 px-6"
+      className="w-full flex items-center gap-2 px-6 text-lg"
     >
       <span role="img" aria-label="現在地">
         📍
       </span>
       現在地から検索
-      {checked && <span className="ml-2 text-xs">ON</span>}
+      {checked && <span className="ml-2 text-sm">ON</span>}
     </Button>
   );
 };
