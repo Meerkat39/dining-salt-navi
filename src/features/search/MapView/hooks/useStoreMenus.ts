@@ -32,7 +32,7 @@ export function useStoreMenus(storeId: string | null): {
         return res.json();
       })
       .then((data) => {
-        setMenus(data.menus || []);
+        setMenus(data);
       })
       .catch((e) => {
         setError(e.message || "メニュー情報の取得に失敗しました");
