@@ -16,7 +16,6 @@ export default function Home() {
   const {
     useCurrentLocation,
     setUseCurrentLocation,
-    center,
     handleCurrentLocationChange,
     setCenter,
   } = useCurrentLocationSearch();
@@ -47,7 +46,6 @@ export default function Home() {
           <div className="h-full">
             <MapView
               filteredStores={filteredStores}
-              center={center}
               selectedStoreId={selectedStoreId}
               setSelectedStoreId={setSelectedStoreId}
               saltValue={saltValue}

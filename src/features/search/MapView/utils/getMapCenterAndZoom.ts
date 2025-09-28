@@ -17,25 +17,21 @@ import type { Store } from "@/types/store";
  */
 export function getMapCenterAndZoom(
   stores: Store[],
-  selectedStoreId?: string | null,
-  defaultCenter?: { lat: number; lng: number },
-  defaultZoom: number = 13
+  selectedStoreId?: string | null
 ) {
   // 選択店舗IDが指定されている場合
   if (selectedStoreId) {
-    // 店舗リストから該当IDの店舗を検索
     const selectedStore = stores.find((s) => s.id === selectedStoreId);
     if (selectedStore) {
-      // 選択店舗が見つかった場合は、その座標・ズーム16で返す
       return {
         center: { lat: selectedStore.lat, lng: selectedStore.lng },
         zoom: 16,
       };
     }
   }
-  // 選択店舗がない場合はデフォルト座標・ズームで返す
+  // デフォルトcenter/zoom（東京駅）
   return {
-    center: defaultCenter,
-    zoom: defaultZoom,
+    center: { lat: 35.681236, lng: 139.767125 },
+    zoom: 11,
   };
 }
