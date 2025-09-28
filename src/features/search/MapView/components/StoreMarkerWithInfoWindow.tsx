@@ -1,8 +1,9 @@
-import type { Menu } from "@/types/menu";
 import type { Store } from "@/types/store";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useStoreMenus } from "../hooks/useStoreMenus";
 import InfoWindow from "./InfoWindow";
 import Marker from "./Marker";
+import { StoreInfoWindowFrame } from "./StoreInfoWindowFrame";
 
 /**
  * 店舗マーカー＋InfoWindow描画用サブコンポーネント
@@ -29,40 +30,48 @@ export function StoreMarkerWithInfoWindow({
   setSelectedStoreId,
   saltValue,
 }: StoreMarkerWithInfoWindowProps) {
-  // 店舗に紐づくメニューをDB/APIから取得
-  const [menus, setMenus] = useState<Menu[]>([]);
+  // カスタムフックでメニュー取得・エラー管理
+  const {
+    menus,
+    error: menuError,
+    loading,
+  } = useStoreMenus(store.chain_id || null);
 
-  useEffect(() => {
-    if (!store.chain_id) return;
-    // chain_idでメニュー取得（API例: /api/chainmenus?chain_id=xxx）
-    fetch(`/api/chainmenus?chain_id=${store.chain_id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setMenus(data);
-      })
-      .catch(console.error);
-  }, [store.chain_id]);
-
-  if (menus.length === 0) return null;
-  // 塩分量でフィルタ
-  const filteredMenus = menus.filter((menu) => menu.salt <= saltValue);
-  if (filteredMenus.length === 0) return null;
-  // 最大5件まで表示、残りは省略
+  const filteredMenus = (menus || []).filter((menu) => menu.salt <= saltValue);
   const displayMenus = filteredMenus.slice(0, 5);
   const omittedCount = filteredMenus.length - displayMenus.length;
+
   return (
     <>
-      {/* 店舗マーカー */}
+      {/* 店舗マーカー（クリックでInfoWindow表示） */}
       <Marker store={store} onClick={() => setSelectedStoreId(store.id)} />
+
       {/* マーカークリック時のみInfoWindow表示 */}
-      {selectedStoreId === store.id && (
-        <InfoWindow
-          store={store}
-          menus={displayMenus}
-          omittedCount={omittedCount}
-          onClose={() => setSelectedStoreId(null)}
-        />
-      )}
+      {selectedStoreId === store.id &&
+        (menuError ? (
+          <StoreInfoWindowFrame
+            store={store}
+            onClose={() => setSelectedStoreId(null)}
+          >
+            {/* エラーメッセージ表示 */}
+            <div className="text-red-500">{menuError}</div>
+          </StoreInfoWindowFrame>
+        ) : loading ? (
+          <StoreInfoWindowFrame
+            store={store}
+            onClose={() => setSelectedStoreId(null)}
+          >
+            {/* ローディング表示 */}
+            <div>メニュー情報を取得中...</div>
+          </StoreInfoWindowFrame>
+        ) : filteredMenus.length === 0 ? null : (
+          <InfoWindow
+            store={store}
+            menus={displayMenus}
+            omittedCount={omittedCount}
+            onClose={() => setSelectedStoreId(null)}
+          />
+        ))}
     </>
   );
 }

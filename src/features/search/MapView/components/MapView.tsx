@@ -56,7 +56,7 @@ const MapView: React.FC<MapViewProps> = ({
   if (!isLoaded) return <MapLoading />;
 
   return (
-    <div className="w-full h-full rounded overflow-hidden">
+    <div className="relative w-full h-full rounded overflow-hidden">
       {/* GoogleMap本体（地図を表示する） */}
       <GoogleMap
         mapContainerStyle={containerStyle}
