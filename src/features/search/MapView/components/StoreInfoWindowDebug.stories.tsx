@@ -1,4 +1,3 @@
-// @ts-expect-error Storybook nextjs型未対応のため
 import type { Meta, StoryObj } from "@storybook/nextjs";
 import { StoreInfoWindowDebug } from "./StoreInfoWindowDebug";
 

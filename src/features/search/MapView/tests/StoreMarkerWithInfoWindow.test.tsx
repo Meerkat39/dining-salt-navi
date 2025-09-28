@@ -13,6 +13,13 @@ beforeAll(() => {
     ],
   });
 });
+
+// Google Maps InfoWindowをテスト用にモック
+jest.mock("@react-google-maps/api", () => ({
+  InfoWindow: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-info-window">{children}</div>
+  ),
+}));
 import type { Menu } from "@/types/menu";
 import type { Store } from "@/types/store";
 import { act, fireEvent, render, screen } from "@testing-library/react";

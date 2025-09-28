@@ -3,6 +3,13 @@ import type { Store } from "@/types/store";
 import { fireEvent, render, screen } from "@testing-library/react";
 import InfoWindow from "../components/InfoWindow";
 
+// Google Maps InfoWindowをテスト用にモック
+jest.mock("@react-google-maps/api", () => ({
+  InfoWindow: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-info-window">{children}</div>
+  ),
+}));
+
 const storeMock: Store = {
   id: "1",
   name: "テスト店舗",

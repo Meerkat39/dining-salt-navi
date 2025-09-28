@@ -1,7 +1,6 @@
 import type { Store } from "@/types/store";
 import React, { useState } from "react";
-import InfoWindow from "./InfoWindow";
-import { StoreInfoWindowFrame } from "./StoreInfoWindowFrame";
+// InfoWindowは使わず中身だけを表示
 
 // デバッグ用ダミーストア
 const dummyStore: Store = {
@@ -65,25 +64,30 @@ export const StoreInfoWindowDebug: React.FC = () => {
           成功
         </button>
       </div>
+      {/* InfoWindowラッパーを外し、中身だけを表示 */}
       {pattern === "error" && (
-        <StoreInfoWindowFrame store={dummyStore} onClose={() => {}}>
-          <div className="text-red-500">
-            メニュー情報の取得に失敗しました（デバッグ表示）
-          </div>
-        </StoreInfoWindowFrame>
+        <div className="p-2 text-xs text-red-500 border rounded bg-white">
+          メニュー情報の取得に失敗しました（デバッグ表示）
+        </div>
       )}
       {pattern === "loading" && (
-        <StoreInfoWindowFrame store={dummyStore} onClose={() => {}}>
-          <div>メニュー情報を取得中...（デバッグ表示）</div>
-        </StoreInfoWindowFrame>
+        <div className="p-2 text-xs border rounded bg-white">
+          メニュー情報を取得中...（デバッグ表示）
+        </div>
       )}
       {pattern === "success" && (
-        <InfoWindow
-          store={dummyStore}
-          menus={dummyMenus}
-          omittedCount={0}
-          onClose={() => {}}
-        />
+        <div className="p-2 text-xs border rounded bg-white">
+          <div className="font-bold mb-1">{dummyStore.name}</div>
+          <div className="mb-1">メニュー一覧:</div>
+          <ul className="mb-1">
+            {dummyMenus.map((menu) => (
+              <li key={menu.id}>
+                <span className="font-semibold">{menu.name}</span>（塩分:{" "}
+                {menu.salt}g）
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
