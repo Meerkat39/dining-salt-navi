@@ -1,3 +1,6 @@
+# Prisma・チェーンデータ全除外
+prisma/*
+src/data/*
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
