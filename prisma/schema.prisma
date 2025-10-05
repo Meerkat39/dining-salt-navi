@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Chain {
+  id         String   @id @default(uuid())
+  name       String
+  stores     Store[]
+  menus      Menu[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Store {
+  id         String   @id @default(uuid())
+  chain_id   String
+  name       String
+  address    String
+  lat        Float
+  lng        Float
+  place_id   String
+  chain      Chain    @relation(fields: [chain_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Menu {
+  id                 String   @id @default(uuid())
+  chain_id           String
+  name               String
+  sodiumEquivalent_g Float
+  chain              Chain    @relation(fields: [chain_id], references: [id])
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+}
