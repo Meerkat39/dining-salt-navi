@@ -36,6 +36,10 @@ export default function Home() {
   const { selectedStoreId, setSelectedStoreId, handleStoreItemClick } =
     useSelectedStoreId();
 
+  // ローディング状態（検索・現在地取得）
+  const [isSearching, setIsSearching] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
+
   return (
     <main className="p-4 flex flex-col items-center gap-8">
       {/* 検索フォーム（幅をデュアルペインと揃える） */}
@@ -50,6 +54,10 @@ export default function Home() {
           setSaltValue={setSaltValue}
           setCenter={setCenter}
           setZoom={setZoom}
+          isSearching={isSearching}
+          setIsSearching={setIsSearching}
+          isLocating={isLocating}
+          setIsLocating={setIsLocating}
         />
       </div>
       {/* デュアルペイン：MapView（左）＋SearchResultList（右） */}
@@ -62,6 +70,7 @@ export default function Home() {
               setSelectedStoreId={setSelectedStoreId}
               saltValue={saltValue}
               center={center}
+              loading={isSearching || isLocating}
             />
           </div>
         </div>

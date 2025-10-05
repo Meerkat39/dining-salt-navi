@@ -1,5 +1,5 @@
 import { fetchGeocode } from "@/features/search/MapView/api/geocoding";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 /**
  * 検索ボタンの連打防止・ローディング管理付きカスタムフック
@@ -15,14 +15,16 @@ export function useSearchWithLoading({
   useCurrentLocation,
   setCenter,
   setZoom,
+  isSearching,
+  setIsSearching,
 }: {
   areaName: string;
   useCurrentLocation: boolean;
   setCenter: (center: { lat: number; lng: number }) => void;
   setZoom: (zoom: number) => void;
+  isSearching: boolean;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [isSearching, setIsSearching] = useState(false);
-
   const handleSearch = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -44,8 +46,15 @@ export function useSearchWithLoading({
         setIsSearching(false);
       }
     },
-    [areaName, useCurrentLocation, setCenter, setZoom, isSearching]
+    [
+      areaName,
+      useCurrentLocation,
+      setCenter,
+      setZoom,
+      isSearching,
+      setIsSearching,
+    ]
   );
 
-  return { isSearching, handleSearch };
+  return { handleSearch };
 }

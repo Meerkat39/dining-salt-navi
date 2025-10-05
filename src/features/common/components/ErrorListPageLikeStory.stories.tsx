@@ -120,6 +120,10 @@ const ErrorListPageLikeStory: React.FC = () => {
           setSaltValue={setSaltValue}
           setCenter={setCenter}
           setZoom={setZoom}
+          isSearching={false}
+          setIsSearching={() => {}}
+          isLocating={false}
+          setIsLocating={() => {}}
         />
         {c.formError && (
           <div className="p-2 border-l-4 border-red-500 bg-red-50 text-red-700 mb-2 mt-2">

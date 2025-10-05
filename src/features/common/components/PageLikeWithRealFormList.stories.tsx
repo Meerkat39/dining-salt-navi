@@ -95,6 +95,10 @@ const PageLikeWithRealFormList: React.FC = () => {
           setSaltValue={setSaltValue}
           setCenter={setCenter}
           setZoom={setZoom}
+          isSearching={false}
+          setIsSearching={() => {}}
+          isLocating={false}
+          setIsLocating={() => {}}
         />
         {/* エラー表示をフォーム下に追加 */}
         {c.formError && (

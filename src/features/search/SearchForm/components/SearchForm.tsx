@@ -34,6 +34,10 @@ type SearchFormProps = {
   setSaltValue: (value: number) => void;
   setCenter: (center: { lat: number; lng: number }) => void;
   setZoom: (zoom: number) => void;
+  isSearching: boolean;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  isLocating: boolean;
+  setIsLocating: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SearchForm: React.FC<SearchFormProps> = ({
@@ -46,22 +50,38 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setSaltValue,
   setCenter,
   setZoom,
+  isSearching,
+  setIsSearching,
+  isLocating,
+  setIsLocating,
 }) => {
-  useGeolocationEffect(useCurrentLocation, onCurrentLocationChange);
-
-  // 検索ボタンのロジックをカスタムフックに委譲
-  const { isSearching, handleSearch } = useSearchWithLoading({
+  // 検索ボタンのロジックをカスタムフックに委譲（ローディング状態は親から受け取る）
+  const { handleSearch } = useSearchWithLoading({
     areaName,
     useCurrentLocation,
     setCenter,
     setZoom,
+    isSearching,
+    setIsSearching,
   });
+  useGeolocationEffect(
+    useCurrentLocation,
+    onCurrentLocationChange,
+    isLocating,
+    setIsLocating
+  );
 
   return (
     <form
       className="flex flex-col gap-4 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1700px] mx-auto px-2 sm:px-4 md:px-8 p-4 bg-white rounded shadow"
       onSubmit={handleSearch}
     >
+      {/* デバッグ用: isSearching, isLocatingの値を表示（不要なら削除OK） */}
+      <div className="text-xs text-gray-500 mb-1">
+        isSearching: {isSearching ? "true" : "false"} / isLocating:{" "}
+        {isLocating ? "true" : "false"}
+      </div>
+      {/* ローディングUIは地図上のみ表示。ここは削除 */}
       {/* 住所や場所を入力＋検索ボタン 横並び */}
       <div className="flex flex-row gap-2 items-end">
         <div className="flex-1">
