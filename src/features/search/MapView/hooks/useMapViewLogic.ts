@@ -17,7 +17,8 @@ import { getMapCenterAndZoom } from "../utils/getMapCenterAndZoom";
  */
 export function useMapViewLogic(
   filteredStores: Store[],
-  selectedStoreId?: string | null
+  selectedStoreId?: string | null,
+  externalCenter?: { lat: number; lng: number } | undefined
 ) {
   // 初期center/zoomは「東京駅」または選択店舗
   const initial = getMapCenterAndZoom(filteredStores, selectedStoreId);
@@ -28,8 +29,13 @@ export function useMapViewLogic(
   // GoogleMapインスタンス参照
   const mapRef = useRef<google.maps.Map | null>(null);
 
-  // 店舗選択時のみcenter/zoomを更新。未選択時や初回はstate維持。
+  // 店舗選択時・外部center変更時にcenter/zoomを更新
   useEffect(() => {
+    if (externalCenter) {
+      setCenter(externalCenter);
+      setZoom(14); // どんなときでもzoom=14に強制
+      return;
+    }
     const { center: newCenter, zoom: newZoom } = getMapCenterAndZoom(
       filteredStores,
       selectedStoreId
@@ -45,7 +51,7 @@ export function useMapViewLogic(
       setCenter(newCenter);
       setZoom(newZoom);
     }
-  }, [filteredStores, selectedStoreId]);
+  }, [filteredStores, selectedStoreId, externalCenter]);
 
   // onCenterChangedは無限ループ防止のため何もしない
   const handleCenterChanged = useCallback(() => {}, []);

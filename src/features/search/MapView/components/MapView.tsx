@@ -30,19 +30,44 @@ type MapViewProps = {
   selectedStoreId?: string | null;
   setSelectedStoreId?: React.Dispatch<React.SetStateAction<string | null>>;
   saltValue: number;
+  center?: { lat: number; lng: number } | undefined;
 };
 
 const MapView: React.FC<MapViewProps> = ({
   filteredStores,
   selectedStoreId,
   setSelectedStoreId,
+  center,
   saltValue,
 }) => {
   const { isLoaded, loadError } = useGoogleMapsLoader();
-  const { center, zoom, mapRef, handleCenterChanged } = useMapViewLogic(
-    filteredStores,
-    selectedStoreId
-  );
+  const {
+    center: mapCenter,
+    zoom: mapZoom,
+    mapRef,
+    handleCenterChanged,
+    setZoom,
+  } = useMapViewLogic(filteredStores, selectedStoreId, center);
+
+  // center/zoomがundefinedの場合はGoogleMapを描画しない
+  const effectiveCenter = center ?? mapCenter;
+  if (!effectiveCenter || typeof mapZoom !== "number") {
+    return (
+      <div className="relative w-full h-full rounded bg-gray-200 flex items-center justify-center">
+        地図情報がありません
+      </div>
+    );
+  }
+
+  // GoogleMapのzoom変更イベントでzoom stateを同期
+  const handleZoomChanged = () => {
+    if (mapRef.current) {
+      const newZoom = mapRef.current.getZoom();
+      if (typeof newZoom === "number" && newZoom !== mapZoom) {
+        if (typeof setZoom === "function") setZoom(newZoom);
+      }
+    }
+  };
 
   if (loadError) return <MapLoadError />;
   if (!isLoaded) return <MapLoading />;
@@ -52,9 +77,10 @@ const MapView: React.FC<MapViewProps> = ({
     <div className="relative w-full h-full rounded overflow-hidden">
       {/* GoogleMap本体 */}
       <GoogleMap
+        key={`${effectiveCenter.lat}-${effectiveCenter.lng}-${mapZoom}`}
         mapContainerStyle={containerStyle}
-        center={center}
-        zoom={zoom}
+        center={effectiveCenter}
+        zoom={mapZoom}
         onLoad={(map) => {
           mapRef.current = map as unknown as google.maps.Map;
         }}
@@ -62,6 +88,7 @@ const MapView: React.FC<MapViewProps> = ({
           mapRef.current = null;
         }}
         onCenterChanged={handleCenterChanged}
+        onZoomChanged={handleZoomChanged}
       >
         {/* 店舗ごとにマーカー＋InfoWindowを描画 */}
         {filteredStores.map((store) => (
@@ -77,5 +104,4 @@ const MapView: React.FC<MapViewProps> = ({
     </div>
   );
 };
-
 export default MapView;

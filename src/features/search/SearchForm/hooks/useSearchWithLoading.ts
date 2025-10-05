@@ -14,10 +14,12 @@ export function useSearchWithLoading({
   areaName,
   useCurrentLocation,
   setCenter,
+  setZoom,
 }: {
   areaName: string;
   useCurrentLocation: boolean;
   setCenter: (center: { lat: number; lng: number }) => void;
+  setZoom: (zoom: number) => void;
 }) {
   const [isSearching, setIsSearching] = useState(false);
 
@@ -28,7 +30,10 @@ export function useSearchWithLoading({
       setIsSearching(true);
       try {
         const coords = await fetchGeocode(areaName);
-        if (coords) setCenter(coords);
+        if (coords) {
+          setCenter(coords);
+          setZoom(14);
+        }
       } catch (err: unknown) {
         if (err instanceof Error) {
           window.alert(err.message);
@@ -39,7 +44,7 @@ export function useSearchWithLoading({
         setIsSearching(false);
       }
     },
-    [areaName, useCurrentLocation, setCenter, isSearching]
+    [areaName, useCurrentLocation, setCenter, setZoom, isSearching]
   );
 
   return { isSearching, handleSearch };

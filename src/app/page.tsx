@@ -18,7 +18,18 @@ export default function Home() {
     setUseCurrentLocation,
     handleCurrentLocationChange,
     setCenter,
+    center,
+    setZoom,
   } = useCurrentLocationSearch();
+
+  // 現在地検索時は店舗選択解除
+  const handleCurrentLocationChangeWithDeselect = (
+    lat: number,
+    lng: number
+  ) => {
+    setSelectedStoreId(null);
+    handleCurrentLocationChange(lat, lng);
+  };
   // 塩分量で店舗を絞り込む
   const filteredStores = useFilteredStores(saltValue);
   // 検索結果リスト・地図連携用：選択店舗ID
@@ -32,12 +43,13 @@ export default function Home() {
         <SearchForm
           areaName={areaName}
           setAreaName={setAreaName}
-          onCurrentLocationChange={handleCurrentLocationChange}
+          onCurrentLocationChange={handleCurrentLocationChangeWithDeselect}
           useCurrentLocation={useCurrentLocation}
           setUseCurrentLocation={setUseCurrentLocation}
           saltValue={saltValue}
           setSaltValue={setSaltValue}
           setCenter={setCenter}
+          setZoom={setZoom}
         />
       </div>
       {/* デュアルペイン：MapView（左）＋SearchResultList（右） */}
@@ -49,6 +61,7 @@ export default function Home() {
               selectedStoreId={selectedStoreId}
               setSelectedStoreId={setSelectedStoreId}
               saltValue={saltValue}
+              center={center}
             />
           </div>
         </div>

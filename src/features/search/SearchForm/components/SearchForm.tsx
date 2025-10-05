@@ -33,6 +33,7 @@ type SearchFormProps = {
   saltValue: number;
   setSaltValue: (value: number) => void;
   setCenter: (center: { lat: number; lng: number }) => void;
+  setZoom: (zoom: number) => void;
 };
 
 const SearchForm: React.FC<SearchFormProps> = ({
@@ -44,6 +45,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   saltValue,
   setSaltValue,
   setCenter,
+  setZoom,
 }) => {
   useGeolocationEffect(useCurrentLocation, onCurrentLocationChange);
 
@@ -52,6 +54,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     areaName,
     useCurrentLocation,
     setCenter,
+    setZoom,
   });
 
   return (

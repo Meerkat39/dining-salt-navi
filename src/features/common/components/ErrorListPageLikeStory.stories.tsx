@@ -91,6 +91,7 @@ const ErrorListPageLikeStory: React.FC = () => {
   const handleStoreItemClick = (id: string) => setSelectedStoreId(id);
   const handleCurrentLocationChange = () => {};
   const setCenter = () => {};
+  const setZoom = () => {};
 
   return (
     <main className="p-4 flex flex-col items-center gap-8 min-h-screen bg-gray-50">
@@ -118,6 +119,7 @@ const ErrorListPageLikeStory: React.FC = () => {
           saltValue={saltValue}
           setSaltValue={setSaltValue}
           setCenter={setCenter}
+          setZoom={setZoom}
         />
         {c.formError && (
           <div className="p-2 border-l-4 border-red-500 bg-red-50 text-red-700 mb-2 mt-2">

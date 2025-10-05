@@ -66,6 +66,7 @@ const PageLikeWithRealFormList: React.FC = () => {
   const handleStoreItemClick = (id: string) => setSelectedStoreId(id);
   const handleCurrentLocationChange = () => {};
   const setCenter = () => {};
+  const setZoom = () => {};
 
   return (
     <main className="p-4 flex flex-col items-center gap-8 min-h-screen bg-gray-50">
@@ -93,6 +94,7 @@ const PageLikeWithRealFormList: React.FC = () => {
           saltValue={saltValue}
           setSaltValue={setSaltValue}
           setCenter={setCenter}
+          setZoom={setZoom}
         />
         {/* エラー表示をフォーム下に追加 */}
         {c.formError && (
