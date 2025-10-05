@@ -7,8 +7,8 @@ const mockStores = [
   { id: "2", name: "B", chain_id: "c2", lat: 0, lng: 0 },
 ];
 const mockMenus = [
-  { id: "m1", chain_id: "c1", salt: 5 },
-  { id: "m2", chain_id: "c2", salt: 10 },
+  { id: "m1", chain_id: "c1", sodiumEquivalent_g: 5 },
+  { id: "m2", chain_id: "c2", sodiumEquivalent_g: 10 },
 ];
 
 beforeAll(() => {

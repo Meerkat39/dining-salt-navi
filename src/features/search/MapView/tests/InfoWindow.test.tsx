@@ -17,6 +17,7 @@ const storeMock: Store = {
   lng: 135.0,
   chain_id: "c1",
   address: "京都府京都市",
+  place_id: "test_place_id",
   created_at: "2023-01-01T00:00:00Z",
   updated_at: "2023-01-01T00:00:00Z",
 };
@@ -24,7 +25,7 @@ const menusMock: Menu[] = [
   {
     id: "m1",
     name: "メニューA",
-    salt: 2.5,
+    sodiumEquivalent_g: 2.5,
     chain_id: "c1",
     created_at: "2023-01-01T00:00:00Z",
     updated_at: "2023-01-01T00:00:00Z",
@@ -32,7 +33,7 @@ const menusMock: Menu[] = [
   {
     id: "m2",
     name: "メニューB",
-    salt: 1.2,
+    sodiumEquivalent_g: 1.2,
     chain_id: "c1",
     created_at: "2023-01-01T00:00:00Z",
     updated_at: "2023-01-01T00:00:00Z",

@@ -10,5 +10,5 @@ export type ChainMenus = {
   chain_id: string;
   created_at: string;
   updated_at: string;
-  menus: Menu[];
+  menus: Menu[]; // Menu型はsodiumEquivalent_gに変更済み
 };

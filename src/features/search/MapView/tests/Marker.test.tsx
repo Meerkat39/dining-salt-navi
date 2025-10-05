@@ -26,6 +26,7 @@ const storeMock: Store = {
   lng: 135.0,
   chain_id: "c1",
   address: "京都府京都市",
+  place_id: "test_place_id",
   created_at: "2023-01-01T00:00:00Z",
   updated_at: "2023-01-01T00:00:00Z",
 };

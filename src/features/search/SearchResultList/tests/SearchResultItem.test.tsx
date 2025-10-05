@@ -9,6 +9,7 @@ describe("SearchResultItem", () => {
     lng: 139.1,
     chain_id: "c1",
     address: "東京都テスト区1-1-1",
+    place_id: "test_place_id",
     created_at: "",
     updated_at: "",
   };

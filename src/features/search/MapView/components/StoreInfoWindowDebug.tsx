@@ -10,6 +10,7 @@ const dummyStore: Store = {
   lng: 139.767125,
   chain_id: "debug-chain-1",
   address: "東京都千代田区丸の内1-1-1",
+  place_id: "debug-place-id-1",
   created_at: "2025-01-01T00:00:00Z",
   updated_at: "2025-01-01T00:00:00Z",
 };
@@ -20,7 +21,7 @@ const dummyMenus = [
     id: "1",
     chain_id: "debug-chain-1",
     name: "メニューA",
-    salt: 2.5,
+    sodiumEquivalent_g: 2.5,
     created_at: "2025-01-01T00:00:00Z",
     updated_at: "2025-01-01T00:00:00Z",
   },
@@ -28,7 +29,7 @@ const dummyMenus = [
     id: "2",
     chain_id: "debug-chain-1",
     name: "メニューB",
-    salt: 3.1,
+    sodiumEquivalent_g: 3.1,
     created_at: "2025-01-01T00:00:00Z",
     updated_at: "2025-01-01T00:00:00Z",
   },
@@ -83,7 +84,7 @@ export const StoreInfoWindowDebug: React.FC = () => {
             {dummyMenus.map((menu) => (
               <li key={menu.id}>
                 <span className="font-semibold">{menu.name}</span>（塩分:{" "}
-                {menu.salt}g）
+                {menu.sodiumEquivalent_g}g）
               </li>
             ))}
           </ul>

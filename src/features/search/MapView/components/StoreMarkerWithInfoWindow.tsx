@@ -37,7 +37,9 @@ export function StoreMarkerWithInfoWindow({
     loading,
   } = useStoreMenus(store.chain_id || null);
 
-  const filteredMenus = (menus || []).filter((menu) => menu.salt <= saltValue);
+  const filteredMenus = (menus || []).filter(
+    (menu) => menu.sodiumEquivalent_g <= saltValue
+  );
   const displayMenus = filteredMenus.slice(0, 5);
   const omittedCount = filteredMenus.length - displayMenus.length;
 

@@ -3,7 +3,7 @@ export type Menu = {
   id: string;
   chain_id: string;
   name: string;
-  salt: number;
+  sodiumEquivalent_g: number;
   created_at: string;
   updated_at: string;
 };

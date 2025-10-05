@@ -12,7 +12,7 @@ export type Store = {
   address: string; // 住所
   lat: number; // 緯度
   lng: number; // 経度
-  place_id?: string; // Google由来の場合のみセット
+  place_id: string; // Google由来。必須（undefined不可）
   created_at: string;
   updated_at: string;
 };
