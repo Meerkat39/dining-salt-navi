@@ -77,10 +77,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
       onSubmit={handleSearch}
     >
       {/* デバッグ用: isSearching, isLocatingの値を表示（不要なら削除OK） */}
-      <div className="text-xs text-gray-500 mb-1">
-        isSearching: {isSearching ? "true" : "false"} / isLocating:{" "}
-        {isLocating ? "true" : "false"}
-      </div>
       {/* ローディングUIは地図上のみ表示。ここは削除 */}
       {/* 住所や場所を入力＋検索ボタン 横並び */}
       <div className="flex flex-row gap-2 items-end">

@@ -19,13 +19,13 @@ export async function GET(request: Request) {
   }
   const menus = await prisma.menu.findMany({
     where: { chain_id },
-    orderBy: { sodiumEquivalent_g: "asc" },
+    orderBy: { saltEquivalent_g: "asc" },
   });
   const result = menus.map((m: Menu) => ({
     id: m.id,
     chain_id: m.chain_id,
     name: m.name,
-    sodiumEquivalent_g: m.sodiumEquivalent_g,
+    saltEquivalent_g: m.saltEquivalent_g,
     created_at:
       typeof m.created_at === "string"
         ? m.created_at

@@ -51,7 +51,7 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
           {menus.map((menu) => (
             <li key={menu.id}>
               <span className="font-semibold">{menu.name}</span>（塩分:{" "}
-              {menu.sodiumEquivalent_g}g）
+              {menu.saltEquivalent_g}g）
             </li>
           ))}
         </ul>

@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
  * メニューAPIルート
  * GET /api/menus
  * - 全メニュー一覧を取得
- * - chain_id, min_sodiumEquivalent_g, max_sodiumEquivalent_g, nameでフィルタ可能
- * - 例: /api/menus?chain_id=xxx&min_sodiumEquivalent_g=0.5&max_sodiumEquivalent_g=2.0&name=ハンバーガー
+ * - chain_id, min_saltEquivalent_g, max_saltEquivalent_g, nameでフィルタ可能
+ * - 例: /api/menus?chain_id=xxx&min_saltEquivalent_g=0.5&max_saltEquivalent_g=2.0&name=ハンバーガー
  */
 const prisma = new PrismaClient();
 
@@ -19,11 +19,11 @@ export async function GET(request: Request) {
   // クエリパラメータ取得
   const { searchParams } = new URL(request.url);
   const chain_id = searchParams.get("chain_id") ?? undefined;
-  const min_sodiumEquivalent_g = searchParams.get("min_sodiumEquivalent_g")
-    ? Number(searchParams.get("min_sodiumEquivalent_g"))
+  const min_saltEquivalent_g = searchParams.get("min_saltEquivalent_g")
+    ? Number(searchParams.get("min_saltEquivalent_g"))
     : undefined;
-  const max_sodiumEquivalent_g = searchParams.get("max_sodiumEquivalent_g")
-    ? Number(searchParams.get("max_sodiumEquivalent_g"))
+  const max_saltEquivalent_g = searchParams.get("max_saltEquivalent_g")
+    ? Number(searchParams.get("max_saltEquivalent_g"))
     : undefined;
   const name = searchParams.get("name") ?? undefined;
 
@@ -31,18 +31,16 @@ export async function GET(request: Request) {
   const where: Prisma.MenuWhereInput = {};
   if (chain_id) where.chain_id = chain_id;
   if (name) where.name = { contains: name };
-  if (min_sodiumEquivalent_g || max_sodiumEquivalent_g) {
-    where.sodiumEquivalent_g = {};
-    if (min_sodiumEquivalent_g)
-      where.sodiumEquivalent_g.gte = min_sodiumEquivalent_g;
-    if (max_sodiumEquivalent_g)
-      where.sodiumEquivalent_g.lte = max_sodiumEquivalent_g;
+  if (min_saltEquivalent_g || max_saltEquivalent_g) {
+    where.saltEquivalent_g = {};
+    if (min_saltEquivalent_g) where.saltEquivalent_g.gte = min_saltEquivalent_g;
+    if (max_saltEquivalent_g) where.saltEquivalent_g.lte = max_saltEquivalent_g;
   }
 
   // メニュー一覧を取得（塩分量昇順）
   const menus = await prisma.menu.findMany({
     where,
-    orderBy: { sodiumEquivalent_g: "asc" },
+    orderBy: { saltEquivalent_g: "asc" },
   });
 
   // JSONレスポンスで返却

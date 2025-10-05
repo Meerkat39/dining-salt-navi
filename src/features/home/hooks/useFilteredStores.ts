@@ -32,7 +32,7 @@ export function useFilteredStores(saltEquivalentValue: number): Store[] {
     const storeMenus = menus.filter((menu) => menu.chain_id === store.chain_id);
     // 塩分量フィルタ（いずれかのメニューが条件以下ならOK）
     return storeMenus.some(
-      (menu) => menu.sodiumEquivalent_g <= saltEquivalentValue
+      (menu) => menu.saltEquivalent_g <= saltEquivalentValue
     );
   });
 }
