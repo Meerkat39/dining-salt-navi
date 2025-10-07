@@ -30,12 +30,13 @@ export function StoreMarkerWithInfoWindow({
   setSelectedStoreId,
   saltValue,
 }: StoreMarkerWithInfoWindowProps) {
-  // カスタムフックでメニュー取得・エラー管理
+  // InfoWindow表示時のみメニュー取得
+  const shouldFetchMenus = selectedStoreId === store.id;
   const {
     menus,
     error: menuError,
     loading,
-  } = useStoreMenus(store.chain_id || null);
+  } = useStoreMenus(shouldFetchMenus ? store.chain_id || null : null);
 
   const filteredMenus = (menus || []).filter(
     (menu) => menu.saltEquivalent_g <= saltValue

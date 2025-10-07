@@ -1,7 +1,6 @@
 import type { Store } from "@/types/store";
 import React from "react";
 import NoSearchResult from "./NoSearchResult";
-import SearchResultItem from "./SearchResultItem";
 
 /**
  * SearchResultList（検索結果リスト本体コンポーネント）
@@ -22,27 +21,14 @@ type SearchResultListProps = {
 
 const SearchResultList: React.FC<SearchResultListProps> = ({
   stores,
-  onStoreItemClick,
-  selectedStoreId,
 }) => {
+  // 検索結果リストの枠は残し、項目は一時的に非表示
   if (stores.length === 0) {
     return <NoSearchResult />;
   }
-
-  // 検索結果リスト本体（店舗ごとにSearchResultItemを表示）
   return (
     <div className="w-full bg-white rounded shadow divide-y">
-      {stores.map((store) => (
-        <div
-          key={store.id}
-          onClick={() => onStoreItemClick && onStoreItemClick(store.id)}
-        >
-          <SearchResultItem
-            store={store}
-            isSelected={selectedStoreId === store.id}
-          />
-        </div>
-      ))}
+      {/* 検索結果項目は一時的に非表示 */}
     </div>
   );
 };
