@@ -16,6 +16,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@googlemaps/markerclusterer": "^2.6.2",
     "@prisma/client": "^6.16.2",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-google-maps/api": "^2.20.7",
