@@ -3,8 +3,9 @@ import { useCurrentLocationSearch } from "@/features/home/hooks/useCurrentLocati
 import { useFilteredStores } from "@/features/home/hooks/useFilteredStores";
 import { useSelectedStoreId } from "@/features/home/hooks/useSelectedStoreId";
 import MapView from "@/features/search/MapView/components/MapView";
+import MenuResultList from "@/features/search/MenuResultList/components/MenuResultList";
+import { useMenuListByStore } from "@/features/search/MenuResultList/hooks/useMenuListByStore";
 import SearchForm from "@/features/search/SearchForm/components/SearchForm";
-import SearchResultList from "@/features/search/SearchResultList/components/SearchResultList";
 import { useState } from "react";
 
 export default function Home() {
@@ -22,6 +23,9 @@ export default function Home() {
     setZoom,
   } = useCurrentLocationSearch();
 
+  // 検索結果リスト・地図連携用：選択店舗ID
+  const { selectedStoreId, setSelectedStoreId } = useSelectedStoreId();
+
   // 現在地検索時は店舗選択解除
   const handleCurrentLocationChangeWithDeselect = (
     lat: number,
@@ -32,13 +36,20 @@ export default function Home() {
   };
   // 塩分量で店舗を絞り込む
   const filteredStores = useFilteredStores(saltValue);
-  // 検索結果リスト・地図連携用：選択店舗ID
-  const { selectedStoreId, setSelectedStoreId, handleStoreItemClick } =
-    useSelectedStoreId();
+
+  // 選択店舗IDに応じてメニュー一覧を取得
+  const { menus: selectedMenus } = useMenuListByStore(selectedStoreId);
 
   // ローディング状態（検索・現在地取得）
   const [isSearching, setIsSearching] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
+
+  // デバッグ: 選択店舗IDとメニュー一覧を表示
+  console.log("selectedStoreId", selectedStoreId);
+  console.log("selectedMenus", selectedMenus);
+  // デバッグ: 選択店舗IDとメニュー一覧を表示
+  console.log("selectedStoreId", selectedStoreId);
+  console.log("selectedMenus", selectedMenus);
 
   return (
     <main className="p-4 flex flex-col items-center gap-8">
@@ -75,11 +86,8 @@ export default function Home() {
           </div>
         </div>
         <div className="w-2/6 h-full overflow-y-auto">
-          <SearchResultList
-            stores={filteredStores}
-            onStoreItemClick={handleStoreItemClick}
-            selectedStoreId={selectedStoreId}
-          />
+          {/* 選択店舗のメニュー一覧を表示（塩分量昇順） */}
+          <MenuResultList menus={selectedMenus || []} />
         </div>
       </div>
     </main>

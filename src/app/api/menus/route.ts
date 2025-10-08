@@ -18,7 +18,8 @@ const prisma = new PrismaClient();
 export async function GET(request: Request) {
   // クエリパラメータ取得
   const { searchParams } = new URL(request.url);
-  const chain_id = searchParams.get("chain_id") ?? undefined;
+  let chain_id = searchParams.get("chain_id") ?? undefined;
+  const store_id = searchParams.get("store_id") ?? undefined;
   const min_saltEquivalent_g = searchParams.get("min_saltEquivalent_g")
     ? Number(searchParams.get("min_saltEquivalent_g"))
     : undefined;
@@ -26,6 +27,15 @@ export async function GET(request: Request) {
     ? Number(searchParams.get("max_saltEquivalent_g"))
     : undefined;
   const name = searchParams.get("name") ?? undefined;
+
+  // store_idが指定された場合はDBからchain_idを取得
+  if (!chain_id && store_id) {
+    const store = await prisma.store.findUnique({
+      where: { id: store_id },
+      select: { chain_id: true },
+    });
+    chain_id = store?.chain_id ?? undefined;
+  }
 
   // Prismaの検索条件（型安全）
   const where: Prisma.MenuWhereInput = {};
