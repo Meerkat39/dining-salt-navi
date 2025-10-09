@@ -45,11 +45,7 @@ export default function Home() {
   const [isLocating, setIsLocating] = useState(false);
 
   // デバッグ: 選択店舗IDとメニュー一覧を表示
-  console.log("selectedStoreId", selectedStoreId);
-  console.log("selectedMenus", selectedMenus);
   // デバッグ: 選択店舗IDとメニュー一覧を表示
-  console.log("selectedStoreId", selectedStoreId);
-  console.log("selectedMenus", selectedMenus);
 
   return (
     <main className="p-4 flex flex-col items-center gap-8">

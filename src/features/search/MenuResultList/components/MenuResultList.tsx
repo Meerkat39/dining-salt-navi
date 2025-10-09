@@ -13,16 +13,18 @@ type MenuResultListProps = {
 };
 
 const MenuResultList: React.FC<MenuResultListProps> = ({ menus }) => {
-  if (!menus || menus.length === 0) {
+  // mainのみ抽出
+  const mainMenus = menus?.filter((menu) => menu.type === "main") ?? [];
+  if (!mainMenus || mainMenus.length === 0) {
     return (
       <div className="w-full bg-white rounded shadow p-4 text-gray-500 text-center">
-        メニューが見つかりません
+        メインメニューが見つかりません
       </div>
     );
   }
   return (
     <div className="w-full bg-white rounded shadow divide-y">
-      {menus.map((menu) => (
+      {mainMenus.map((menu) => (
         <div key={menu.id} className="p-4 flex flex-col gap-1">
           <span className="font-semibold text-lg">{menu.name}</span>
           <span className="text-sm text-gray-600">

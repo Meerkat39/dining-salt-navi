@@ -9,12 +9,12 @@ import type { Store } from "@/types/store";
 export function useGridSampleStores(stores: Store[], zoom: number): Store[] {
   // ズームレベルに応じてグリッドサイズを決定
   const getGridSize = (zoom: number): number => {
-    if (zoom >= 18) return 0.0005; // 超拡大（駅周辺・建物単位）
-    if (zoom >= 16) return 0.001; // 都市部（区・町単位）
-    if (zoom >= 14) return 0.003; // 市区町村
-    if (zoom >= 12) return 0.008; // 都道府県
-    if (zoom >= 10) return 0.02; // 広域（関東・近畿など）
-    return 0.05; // 全国（代表店舗のみ）
+    if (zoom >= 18) return 0.0001; // 超拡大（駅周辺・建物単位）
+    if (zoom >= 16) return 0.0003; // 都市部（区・町単位）
+    if (zoom >= 14) return 0.0015; // 市区町村
+    if (zoom >= 12) return 0.006; // 都道府県
+    if (zoom >= 10) return 0.015; // 広域（関東・近畿など）
+    return 0.04; // 全国（代表店舗のみ）
   };
 
   const gridSize = getGridSize(zoom);

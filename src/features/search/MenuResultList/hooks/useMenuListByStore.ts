@@ -28,8 +28,11 @@ export function useMenuListByStore(storeId: string | null) {
         return res.json();
       })
       .then((data: Menu[]) => {
-        // 塩分量昇順でソート
-        setMenus(data.sort((a, b) => a.saltEquivalent_g - b.saltEquivalent_g));
+        // mainのみ抽出し、塩分量昇順でソート
+        const mainMenus = data.filter((menu) => menu.type === "main");
+        setMenus(
+          mainMenus.sort((a, b) => a.saltEquivalent_g - b.saltEquivalent_g)
+        );
       })
       .catch((e) => {
         setError(e.message || "メニュー情報の取得に失敗しました");

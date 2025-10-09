@@ -38,9 +38,10 @@ export function StoreMarkerWithInfoWindow({
     loading,
   } = useStoreMenus(shouldFetchMenus ? store.chain_id || null : null);
 
-  const filteredMenus = (menus || []).filter(
-    (menu) => menu.saltEquivalent_g <= saltValue
-  );
+  // mainのみ抽出し、塩分フィルタ
+  const filteredMenus = (menus || [])
+    .filter((menu) => menu.type === "main")
+    .filter((menu) => menu.saltEquivalent_g <= saltValue);
   const displayMenus = filteredMenus.slice(0, 5);
   const omittedCount = filteredMenus.length - displayMenus.length;
 
