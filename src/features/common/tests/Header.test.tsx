@@ -9,7 +9,7 @@ describe("Header", () => {
 
   it("サイトタイトルが表示される", () => {
     render(<Header />);
-    expect(screen.getByText("外食減塩ナビ")).toBeInTheDocument();
+    expect(screen.getByText("外食塩分ナビ")).toBeInTheDocument();
   });
 
   it("クラス名が正しく付与されている", () => {
