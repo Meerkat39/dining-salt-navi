@@ -1,4 +1,3 @@
-import type { Menu } from "@/types/menu";
 import type { Store } from "@/types/store";
 import { InfoWindow as GoogleMapsInfoWindow } from "@react-google-maps/api";
 import React from "react";
@@ -18,17 +17,10 @@ import React from "react";
  */
 type InfoWindowProps = {
   store: Store;
-  menus: Menu[];
-  omittedCount?: number;
   onClose?: () => void;
 };
 
-const InfoWindow: React.FC<InfoWindowProps> = ({
-  store,
-  menus,
-  omittedCount = 0,
-  onClose,
-}) => {
+const InfoWindow: React.FC<InfoWindowProps> = ({ store, onClose }) => {
   // Google Maps APIロード済みならpixelOffsetでInfoWindowを上方向にずらす
   const infoWindowOptions =
     typeof window !== "undefined" && window.google && window.google.maps
@@ -41,30 +33,10 @@ const InfoWindow: React.FC<InfoWindowProps> = ({
       onCloseClick={onClose}
       options={infoWindowOptions}
     >
-      <div className="p-2 text-xs">
-        {/* 店名表示 */}
+      <div className="p-2 text-xs" data-testid="info-window">
         <div className="font-bold mb-1">{store.name}</div>
-        {/* メニュー一覧タイトル */}
-        <div className="mb-1">メニュー一覧:</div>
-        {/* メニューリスト（最大5件まで） */}
-        <ul className="mb-1">
-          {menus.map((menu) => (
-            <li key={menu.id}>
-              <span className="font-semibold">{menu.name}</span>（塩分:{" "}
-              {menu.saltEquivalent_g}g）
-            </li>
-          ))}
-        </ul>
-        {/* 省略件数がある場合のみ表示 */}
-        {omittedCount > 0 && (
-          <div className="text-gray-500 text-xs">他 {omittedCount} 件省略</div>
-        )}
-        {/* 店舗の緯度・経度表示 */}
-        <div>緯度: {store.lat}</div>
-        <div>経度: {store.lng}</div>
-        {/* 閉じるボタン（onCloseが渡された場合のみ表示） */}
         {onClose && (
-          <button className="text-blue-500 mt-1" onClick={onClose}>
+          <button onClick={onClose} data-testid="info-window-close">
             閉じる
           </button>
         )}

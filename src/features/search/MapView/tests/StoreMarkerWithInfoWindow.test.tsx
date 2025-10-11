@@ -20,12 +20,11 @@ jest.mock("@react-google-maps/api", () => ({
     <div data-testid="mock-info-window">{children}</div>
   ),
 }));
-import type { Menu } from "@/types/menu";
 import type { Store } from "@/types/store";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { StoreMarkerWithInfoWindow } from "../components/StoreMarkerWithInfoWindow";
 
-// Marker/InfoWindowをモック化
+// Marker/InfoWindowを現仕様に合わせてモック化
 jest.mock("../components/Marker", () => ({
   __esModule: true,
   default: ({ store, onClick }: { store: Store; onClick?: () => void }) => (
@@ -36,21 +35,9 @@ jest.mock("../components/Marker", () => ({
 }));
 jest.mock("../components/InfoWindow", () => ({
   __esModule: true,
-  default: ({
-    store,
-    menus,
-    omittedCount,
-    onClose,
-  }: {
-    store: Store;
-    menus: Menu[];
-    omittedCount?: number;
-    onClose?: () => void;
-  }) => (
+  default: ({ store, onClose }: { store: Store; onClose?: () => void }) => (
     <div data-testid="mock-info-window">
       <span>{store.name}</span>
-      <span>{menus.length}</span>
-      {omittedCount ? <span>他 {omittedCount} 件省略</span> : null}
       {onClose && <button onClick={onClose}>閉じる</button>}
     </div>
   ),
@@ -76,7 +63,6 @@ describe("StoreMarkerWithInfoWindow", () => {
         store={storeMock}
         selectedStoreId={null}
         setSelectedStoreId={setSelectedStoreId}
-        saltValue={3}
       />
     );
     const marker = await screen.findByTestId("mock-marker");
@@ -86,18 +72,19 @@ describe("StoreMarkerWithInfoWindow", () => {
     expect(setSelectedStoreId).toHaveBeenCalledWith(storeMock.id);
   });
 
-  it("propsがInfoWindowに正しく渡る", async () => {
+  it("InfoWindowに店舗名が表示される", async () => {
     const setSelectedStoreId = jest.fn();
     render(
       <StoreMarkerWithInfoWindow
         store={storeMock}
         selectedStoreId={storeMock.id}
         setSelectedStoreId={setSelectedStoreId}
-        saltValue={3}
       />
     );
     const infoWindow = await screen.findByTestId("mock-info-window");
     expect(infoWindow).toBeInTheDocument();
+    const nameElements = screen.getAllByText("テスト店舗");
+    expect(nameElements.length).toBeGreaterThanOrEqual(1);
   });
 
   it("InfoWindowの閉じるボタンでウィンドウが閉じる", async () => {
@@ -107,7 +94,6 @@ describe("StoreMarkerWithInfoWindow", () => {
         store={storeMock}
         selectedStoreId={storeMock.id}
         setSelectedStoreId={setSelectedStoreId}
-        saltValue={3}
       />
     );
     const closeBtn = await screen.findByText("閉じる");
@@ -117,7 +103,7 @@ describe("StoreMarkerWithInfoWindow", () => {
     expect(setSelectedStoreId).toHaveBeenCalledWith(null);
   });
 
-  it("store座標未定義・menus空でも例外なく描画", async () => {
+  it("store座標未定義でも例外なく描画", async () => {
     const storeNoLatLng = {
       ...storeMock,
       lat: undefined,
@@ -129,7 +115,6 @@ describe("StoreMarkerWithInfoWindow", () => {
         store={storeNoLatLng}
         selectedStoreId={null}
         setSelectedStoreId={setSelectedStoreId}
-        saltValue={3}
       />
     );
     const marker = await screen.findByTestId("mock-marker");

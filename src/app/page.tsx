@@ -75,7 +75,6 @@ export default function Home() {
               filteredStores={filteredStores}
               selectedStoreId={selectedStoreId}
               setSelectedStoreId={setSelectedStoreId}
-              saltValue={saltValue}
               center={center}
               loading={isSearching || isLocating}
             />
@@ -83,7 +82,7 @@ export default function Home() {
         </div>
         <div className="w-2/6 h-full overflow-y-auto">
           {/* 選択店舗のメニュー一覧を表示（塩分量昇順） */}
-          <MenuResultList menus={selectedMenus || []} />
+          <MenuResultList menus={selectedMenus || []} saltLimit={saltValue} />
         </div>
       </div>
     </main>

@@ -1,9 +1,7 @@
 import type { Store } from "@/types/store";
 import React from "react";
-import { useStoreMenus } from "../hooks/useStoreMenus";
 import InfoWindow from "./InfoWindow";
 import Marker from "./Marker";
-import { StoreInfoWindowFrame } from "./StoreInfoWindowFrame";
 
 /**
  * 店舗マーカー＋InfoWindow描画用サブコンポーネント
@@ -21,61 +19,22 @@ export type StoreMarkerWithInfoWindowProps = {
   store: Store;
   selectedStoreId: string | null;
   setSelectedStoreId: React.Dispatch<React.SetStateAction<string | null>>;
-  saltValue: number;
 };
 
 export function StoreMarkerWithInfoWindow({
   store,
   selectedStoreId,
   setSelectedStoreId,
-  saltValue,
 }: StoreMarkerWithInfoWindowProps) {
-  // InfoWindow表示時のみメニュー取得
-  const shouldFetchMenus = selectedStoreId === store.id;
-  const {
-    menus,
-    error: menuError,
-    loading,
-  } = useStoreMenus(shouldFetchMenus ? store.chain_id || null : null);
-
-  // mainのみ抽出し、塩分フィルタ
-  const filteredMenus = (menus || [])
-    .filter((menu) => menu.type === "main")
-    .filter((menu) => menu.saltEquivalent_g <= saltValue);
-  const displayMenus = filteredMenus.slice(0, 5);
-  const omittedCount = filteredMenus.length - displayMenus.length;
-
   return (
     <>
       {/* 店舗マーカー（クリックでInfoWindow表示） */}
       <Marker store={store} onClick={() => setSelectedStoreId(store.id)} />
 
-      {/* マーカークリック時のみInfoWindow表示 */}
-      {selectedStoreId === store.id &&
-        (menuError ? (
-          <StoreInfoWindowFrame
-            store={store}
-            onClose={() => setSelectedStoreId(null)}
-          >
-            {/* エラーメッセージ表示 */}
-            <div className="text-red-500">{menuError}</div>
-          </StoreInfoWindowFrame>
-        ) : loading ? (
-          <StoreInfoWindowFrame
-            store={store}
-            onClose={() => setSelectedStoreId(null)}
-          >
-            {/* ローディング表示 */}
-            <div>メニュー情報を取得中...</div>
-          </StoreInfoWindowFrame>
-        ) : filteredMenus.length === 0 ? null : (
-          <InfoWindow
-            store={store}
-            menus={displayMenus}
-            omittedCount={omittedCount}
-            onClose={() => setSelectedStoreId(null)}
-          />
-        ))}
+      {/* マーカークリック時のみInfoWindow表示（店舗名のみ） */}
+      {selectedStoreId === store.id && (
+        <InfoWindow store={store} onClose={() => setSelectedStoreId(null)} />
+      )}
     </>
   );
 }

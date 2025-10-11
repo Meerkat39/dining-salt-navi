@@ -27,8 +27,6 @@ export function StoreInfoWindowFrame({
       <div className="bg-white border rounded shadow p-2 text-xs">
         <div className="font-bold mb-1">{store.name}</div>
         {children}
-        <div>緯度: {store.lat}</div>
-        <div>経度: {store.lng}</div>
         <button className="text-blue-500 mt-1" onClick={onClose}>
           閉じる
         </button>

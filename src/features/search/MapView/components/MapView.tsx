@@ -34,7 +34,7 @@ type MapViewProps = {
   filteredStores: Store[];
   selectedStoreId?: string | null;
   setSelectedStoreId?: React.Dispatch<React.SetStateAction<string | null>>;
-  saltValue: number;
+  // saltValue: number; // 未使用のため削除
   center?: { lat: number; lng: number } | undefined;
   loading?: boolean;
 };
@@ -43,7 +43,7 @@ const MapView: React.FC<MapViewProps> = ({
   selectedStoreId,
   setSelectedStoreId,
   center,
-  saltValue,
+  // saltValue, // 未使用のため削除
   loading = false,
 }) => {
   const { isLoaded, loadError } = useGoogleMapsLoader();
@@ -102,7 +102,6 @@ const MapView: React.FC<MapViewProps> = ({
       {loading && <LoadingOverlay />}
       {/* GoogleMap本体 */}
       <GoogleMap
-        key="main-map"
         mapContainerStyle={containerStyle}
         center={effectiveCenter}
         zoom={mapZoom}
@@ -123,7 +122,6 @@ const MapView: React.FC<MapViewProps> = ({
             store={store}
             selectedStoreId={selectedStoreId || null}
             setSelectedStoreId={setSelectedStoreId!}
-            saltValue={saltValue}
           />
         ))}
       </GoogleMap>

@@ -11,7 +11,9 @@ describe("Homeページ", () => {
     expect(container.querySelector("form")).toBeInTheDocument(); // 検索フォーム
     // 地図・リストはテストID未設定のため、テキストで判定
     expect(screen.getByText("Loading Map...")).toBeInTheDocument(); // 地図
-    expect(screen.getByText("検索結果がありません")).toBeInTheDocument(); // リスト
+    expect(
+      screen.getByText("条件に合うメインメニューが見つかりません")
+    ).toBeInTheDocument(); // リスト
   });
 
   it("初期状態でキーワード・塩分量・現在地取得UIが表示される", () => {

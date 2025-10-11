@@ -11,9 +11,10 @@
 マクドナルド menu
 
 - メニュー表示・フィルタ main 限定化 TODO
-  - [ ] MenuResultList で type=="main"のみ表示する
-  - [ ] 塩分フィルタ処理も main のみ対象にする
-  - [ ] useMenuListByStore 等のフックで main のみ返すよう修正
-  - [ ] API（/api/menus）で type フィルタ対応（任意）
-  - [ ] UI 上で「main のみ表示中」ラベル・説明追加（任意）
-  - [ ] テスト・動作確認（サイドメニュー非表示、main のみフィルタ動作確認）
+  - [x] MenuResultList で type=="main"のみ表示する
+  - [x] MenuResultList で 塩分量が設定された以下条件を満たすもののみ表示する
+  - [x] 塩分フィルタ処理も main のみ対象にする
+  - [x] useMenuListByStore 等のフックで main のみ返すよう修正
+  - [x] API（/api/menus）で type フィルタ対応（任意）
+  - [x] UI 上で「main のみ表示中」ラベル・説明追加（任意）
+  - [x] テスト・動作確認（サイドメニュー非表示、main のみフィルタ動作確認）

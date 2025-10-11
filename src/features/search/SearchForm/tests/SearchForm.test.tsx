@@ -13,6 +13,11 @@ describe("SearchForm", () => {
     saltValue: 5,
     setSaltValue: jest.fn(),
     setCenter: jest.fn(),
+    setZoom: jest.fn(),
+    isSearching: false,
+    setIsSearching: jest.fn(),
+    isLocating: false,
+    setIsLocating: jest.fn(),
   };
 
   it("初期表示でエリア名入力欄・検索ボタン・現在地トグル・塩分量フィルタが表示される", () => {
@@ -48,6 +53,11 @@ describe("SearchForm", () => {
           areaName={areaName}
           setAreaName={setAreaName}
           setCenter={jest.fn()}
+          setZoom={jest.fn()}
+          isSearching={false}
+          setIsSearching={jest.fn()}
+          isLocating={false}
+          setIsLocating={jest.fn()}
         />
       );
     };
@@ -70,6 +80,11 @@ describe("SearchForm", () => {
           areaName={areaName}
           setAreaName={setAreaName}
           setCenter={jest.fn()}
+          setZoom={jest.fn()}
+          isSearching={false}
+          setIsSearching={jest.fn()}
+          isLocating={false}
+          setIsLocating={jest.fn()}
         />
       );
     };
