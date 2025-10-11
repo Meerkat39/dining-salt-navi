@@ -3,10 +3,9 @@ import type { Store } from "@/types/store";
 
 /**
  * 店舗リストを塩分量で絞り込むカスタムフック
+ * DB/APIから店舗・メニュー情報を非同期取得し、指定した塩分量以下のメニューを持つ店舗のみ返す。
  * @param {number} saltEquivalentValue 塩分量フィルタ（g単位）
- * @returns {Store[]} filteredStores 絞り込まれた店舗リスト
- *
- * DB/APIからstores・menusを非同期取得し、塩分量で絞り込む
+ * @returns {Store[]} 絞り込まれた店舗リスト
  */
 import { useEffect, useState } from "react";
 
@@ -36,5 +35,3 @@ export function useFilteredStores(saltEquivalentValue: number): Store[] {
     );
   });
 }
-
-// stores, menusは親コンポーネントからpropsで渡す設計です

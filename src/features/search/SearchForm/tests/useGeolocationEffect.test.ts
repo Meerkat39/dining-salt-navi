@@ -23,7 +23,7 @@ describe("useGeolocationEffect", () => {
       value: { getCurrentPosition },
       configurable: true,
     });
-    renderHook(() => useGeolocationEffect(true));
+    renderHook(() => useGeolocationEffect(true, undefined, false, jest.fn()));
     expect(getCurrentPosition).toHaveBeenCalled();
   });
 
@@ -36,7 +36,7 @@ describe("useGeolocationEffect", () => {
       configurable: true,
     });
     const onChange = jest.fn();
-    renderHook(() => useGeolocationEffect(true, onChange));
+    renderHook(() => useGeolocationEffect(true, onChange, false, jest.fn()));
     expect(onChange).toHaveBeenCalledWith(35, 135);
   });
 
@@ -49,7 +49,7 @@ describe("useGeolocationEffect", () => {
       configurable: true,
     });
     const alertSpy = jest.spyOn(global, "alert").mockImplementation(() => {});
-    renderHook(() => useGeolocationEffect(true));
+    renderHook(() => useGeolocationEffect(true, undefined, false, jest.fn()));
     expect(alertSpy).toHaveBeenCalledWith(
       "現在地の取得に失敗しました: 位置情報エラー"
     );
@@ -62,7 +62,7 @@ describe("useGeolocationEffect", () => {
       configurable: true,
     });
     const alertSpy = jest.spyOn(global, "alert").mockImplementation(() => {});
-    renderHook(() => useGeolocationEffect(true));
+    renderHook(() => useGeolocationEffect(true, undefined, false, jest.fn()));
     expect(alertSpy).toHaveBeenCalledWith(
       "この端末・ブラウザは現在地取得に対応していません。"
     );
@@ -76,7 +76,7 @@ describe("useGeolocationEffect", () => {
       configurable: true,
     });
     const alertSpy = jest.spyOn(global, "alert").mockImplementation(() => {});
-    renderHook(() => useGeolocationEffect(false));
+    renderHook(() => useGeolocationEffect(false, undefined, false, jest.fn()));
     expect(getCurrentPosition).not.toHaveBeenCalled();
     expect(alertSpy).not.toHaveBeenCalled();
     alertSpy.mockRestore();

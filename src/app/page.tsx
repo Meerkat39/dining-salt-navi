@@ -1,10 +1,12 @@
 "use client";
+
+import { handleCurrentLocationChangeWithDeselect } from "@/features/home/hooks/handleCurrentLocationChangeWithDeselect";
 import { useCurrentLocationSearch } from "@/features/home/hooks/useCurrentLocationSearch";
 import { useFilteredStores } from "@/features/home/hooks/useFilteredStores";
 import { useSelectedStoreId } from "@/features/home/hooks/useSelectedStoreId";
 import MapView from "@/features/search/MapView/components/MapView";
 import MenuResultList from "@/features/search/MenuResultList/components/MenuResultList";
-import { useMenuListByStore } from "@/features/search/MenuResultList/hooks/useMenuListByStore";
+import { useMenuListByStore } from "@/features/home/hooks/useMenuListByStore";
 import SearchForm from "@/features/search/SearchForm/components/SearchForm";
 import { useState } from "react";
 
@@ -15,25 +17,33 @@ export default function Home() {
   const [saltValue, setSaltValue] = useState(2.5);
   // 現在地取得の状態・座標・コールバックをまとめて管理
   const {
-    useCurrentLocation,
-    setUseCurrentLocation,
-    handleCurrentLocationChange,
-    setCenter,
-    center,
-    setZoom,
+    useCurrentLocation, // 現在地取得モードのON/OFF
+    setUseCurrentLocation, // 現在地取得モードの切替関数
+    handleCurrentLocationChange, // 現在地座標変更時のコールバック
+    setCenter, // 地図中心座標の更新関数
+    center, // 地図の中心座標
+    setZoom, // 地図ズーム倍率の更新関数
   } = useCurrentLocationSearch();
 
   // 検索結果リスト・地図連携用：選択店舗ID
-  const { selectedStoreId, setSelectedStoreId } = useSelectedStoreId();
+  const {
+    selectedStoreId, // 選択中の店舗ID
+    setSelectedStoreId, // 選択店舗IDの更新関数
+  } = useSelectedStoreId();
 
   // 現在地検索時は店舗選択解除
-  const handleCurrentLocationChangeWithDeselect = (
+  const handleCurrentLocationChangeWithDeselectWrapper = (
     lat: number,
     lng: number
   ) => {
-    setSelectedStoreId(null);
-    handleCurrentLocationChange(lat, lng);
+    handleCurrentLocationChangeWithDeselect(
+      setSelectedStoreId,
+      handleCurrentLocationChange,
+      lat,
+      lng
+    );
   };
+
   // 塩分量で店舗を絞り込む
   const filteredStores = useFilteredStores(saltValue);
 
@@ -44,9 +54,6 @@ export default function Home() {
   const [isSearching, setIsSearching] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
 
-  // デバッグ: 選択店舗IDとメニュー一覧を表示
-  // デバッグ: 選択店舗IDとメニュー一覧を表示
-
   return (
     <main className="p-4 flex flex-col items-center gap-8">
       {/* 検索フォーム（幅をデュアルペインと揃える） */}
@@ -54,7 +61,9 @@ export default function Home() {
         <SearchForm
           areaName={areaName}
           setAreaName={setAreaName}
-          onCurrentLocationChange={handleCurrentLocationChangeWithDeselect}
+          onCurrentLocationChange={
+            handleCurrentLocationChangeWithDeselectWrapper
+          }
           useCurrentLocation={useCurrentLocation}
           setUseCurrentLocation={setUseCurrentLocation}
           saltValue={saltValue}

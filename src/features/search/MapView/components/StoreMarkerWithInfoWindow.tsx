@@ -6,13 +6,14 @@ import Marker from "./Marker";
 /**
  * 店舗マーカー＋InfoWindow描画用サブコンポーネント
  *
+ * 店舗ごとにマーカーを表示し、クリック時にInfoWindowで店舗情報（店舗名のみ）を表示。
+ * 選択中の店舗ID（selectedStoreId）が一致した場合のみInfoWindowを表示。
+ * ピン/リスト連携のためsetSelectedStoreIdで選択状態を管理。
+ *
  * @param {Store} store - 表示対象の店舗データ
  * @param {string|null} selectedStoreId - 選択中の店舗ID（InfoWindow表示判定用）
- * @param {React.Dispatch<React.SetStateAction<string|null>>} setSelectedStoreId - 選択店舗IDの更新関数（ピン/リスト連携用）
- * @param {number} saltValue - 塩分量フィルタ値（g単位、スライダー連動）
+ * @param {React.Dispatch<React.SetStateAction<string|null>>} setSelectedStoreId - 選択店舗IDの更新関数
  *
- * 店舗ごとにマーカーを表示し、クリック時にInfoWindowで店舗情報＋代表メニュー（最大5件）を表示。
- * 店舗情報（store）からchain_idでDB/APIからメニューを取得し、saltValueでメニューをフィルタ。
  */
 
 export type StoreMarkerWithInfoWindowProps = {

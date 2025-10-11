@@ -6,6 +6,7 @@ import React from "react";
 import { useGoogleMapsLoader } from "../api/googleMaps";
 import { useGridSampleStores } from "../hooks/useGridSampleStores";
 import { useMapViewLogic } from "../hooks/useMapViewLogic";
+import { useMapViewportUpdate } from "../hooks/useMapViewportUpdate";
 import { useViewportStores } from "../hooks/useViewportStores";
 import {
   containerStyle,
@@ -17,24 +18,19 @@ import { StoreMarkerWithInfoWindow } from "./StoreMarkerWithInfoWindow";
 
 /**
  * 店舗・メニュー地図表示コンポーネント
+ * 地図上に店舗マーカー（バーチャライズ＋グリッドサンプリング）とInfoWindowを表示。
+ * 店舗選択時はcenter/zoomが切り替わり、filteredStoresは塩分量・エリアで動的に変化する。
  *
  * @param {Store[]} filteredStores - 絞り込まれた店舗リスト（塩分量・エリアでフィルタ済み）
  * @param {string|null} [selectedStoreId] - 選択中の店舗ID（InfoWindow表示・地図ズーム用）
  * @param {React.Dispatch<React.SetStateAction<string|null>>} [setSelectedStoreId] - 選択店舗IDの更新関数（ピン/リスト連携用）
- * @param {number} saltValue - 塩分量フィルタ値（g単位、スライダー連動）
  * @param {{ lat: number; lng: number }} [center] - 地図の初期中心座標（任意）
  * @param {boolean} [loading] - ローディング状態（任意）
- *
- * 地図上に店舗マーカー（バーチャライズ＋グリッドサンプリング）とInfoWindowを表示。
- * 店舗選択時はcenter/zoomが切り替わり、filteredStoresは塩分量・エリアで動的に変化する。
  */
-// 型定義はコンポーネント宣言の直前に配置
-
 type MapViewProps = {
   filteredStores: Store[];
   selectedStoreId?: string | null;
   setSelectedStoreId?: React.Dispatch<React.SetStateAction<string | null>>;
-  // saltValue: number; // 未使用のため削除
   center?: { lat: number; lng: number } | undefined;
   loading?: boolean;
 };
@@ -43,47 +39,46 @@ const MapView: React.FC<MapViewProps> = ({
   selectedStoreId,
   setSelectedStoreId,
   center,
-  // saltValue, // 未使用のため削除
   loading = false,
 }) => {
-  const { isLoaded, loadError } = useGoogleMapsLoader();
+  // Google Maps APIのロード状態・エラー情報を管理
   const {
-    center: mapCenter,
-    zoom: mapZoom,
-    mapRef,
-    handleCenterChanged,
-    setZoom,
+    isLoaded, // Google Maps APIのロード完了フラグ
+    loadError, // ロード失敗時のエラーオブジェクト
+  } = useGoogleMapsLoader();
+
+  // 地図の中心座標・ズーム・参照・イベントハンドラを管理
+  const {
+    center: mapCenter, // 地図の中心座標
+    zoom: mapZoom, // 地図のズーム倍率
+    mapRef, // GoogleMapインスタンス参照
+    handleCenterChanged, // 地図中心変更時の処理
+    setZoom, // ズーム倍率の更新関数
   } = useMapViewLogic(filteredStores, selectedStoreId, center);
 
-  // center/zoomがundefinedの場合はGoogleMapを描画しない
+  // 地図の中心座標（propsのcenter優先、なければmapCenter）
   const effectiveCenter = center ?? mapCenter;
 
-  // useViewportStoresフックでビューポート内店舗リストを管理
-  const { viewportStores, updateViewportStores } = useViewportStores(
-    filteredStores,
-    mapRef,
-    mapZoom,
-    effectiveCenter
-  );
-  // ズーム・中心変更時にビューポート店舗リストも更新
-  const handleZoomChanged = () => {
-    if (mapRef.current) {
-      const newZoom = mapRef.current.getZoom();
-      if (typeof newZoom === "number" && newZoom !== mapZoom) {
-        if (typeof setZoom === "function") setZoom(newZoom);
-      }
-      updateViewportStores();
-    }
-  };
-  const handleCenterChangedWithViewport = () => {
-    handleCenterChanged();
-    updateViewportStores();
-  };
+  // ビューポート内の店舗リストと更新関数を管理
+  const {
+    viewportStores, // ビューポート内の店舗リスト
+    updateViewportStores, // ビューポート内店舗リストの更新関数
+  } = useViewportStores(filteredStores, mapRef, mapZoom, effectiveCenter);
 
-  // useGridSampleStoresフックでグリッドサンプリング適用
+  // ズーム・中心変更時の地図ロジックを専用フックで管理
+  const { handleZoomChanged, handleCenterChangedWithViewport } =
+    useMapViewportUpdate(
+      mapRef, // GoogleMapインスタンス参照
+      mapZoom, // 現在のズーム倍率
+      setZoom, // ズーム倍率の更新関数
+      updateViewportStores, // ビューポート内店舗リストの更新関数
+      handleCenterChanged // 地図中心変更時のコールバック
+    );
+
+  // グリッドサンプリング適用
   const sampledStores = useGridSampleStores(viewportStores, mapZoom);
 
-  // center/zoomが未定義なら地図情報なしを表示（Hooksより後に配置）
+  // center/zoomが未定義なら地図情報なしを表示
   if (!effectiveCenter || typeof mapZoom !== "number") {
     return (
       <div className="relative w-full h-full rounded bg-gray-200 flex items-center justify-center">
@@ -92,7 +87,9 @@ const MapView: React.FC<MapViewProps> = ({
     );
   }
 
+  // Google Maps APIのロードエラー時
   if (loadError) return <MapLoadError />;
+  // Google Maps API未ロード時
   if (!isLoaded) return <MapLoading />;
 
   // 地図本体と店舗マーカーを描画（バーチャライズ＋グリッドサンプリング適用）
@@ -102,7 +99,7 @@ const MapView: React.FC<MapViewProps> = ({
       {loading && <LoadingOverlay />}
       {/* GoogleMap本体 */}
       <GoogleMap
-        mapContainerStyle={containerStyle}
+        mapContainerStyle={containerStyle} // 地図コンテナのサイズ・スタイル指定
         center={effectiveCenter}
         zoom={mapZoom}
         onLoad={(map) => {
@@ -110,7 +107,7 @@ const MapView: React.FC<MapViewProps> = ({
           updateViewportStores();
         }}
         onUnmount={() => {
-          mapRef.current = null;
+          mapRef.current = null; // 地図コンポーネントのアンマウント時にGoogleMap参照をクリア
         }}
         onCenterChanged={handleCenterChangedWithViewport}
         onZoomChanged={handleZoomChanged}

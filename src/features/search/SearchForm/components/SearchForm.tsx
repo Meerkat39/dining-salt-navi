@@ -9,9 +9,9 @@ import SearchButton from "./SearchButton";
 
 /**
  * 検索条件フォーム（SearchForm）
- * - 店名・料理名キーワード入力
- * - 現在地から検索トグル
- * - 塩分量フィルタ
+ * - 店名・料理名キーワード入力欄
+ * - 現在地から検索トグルボタン
+ * - 塩分量フィルタ（g単位）
  * - 検索ボタン
  * 各種状態・操作関数は親からpropsで受け取る
  *
@@ -23,6 +23,12 @@ import SearchButton from "./SearchButton";
  * @property {(checked: boolean) => void} setUseCurrentLocation - 現在地検索ON/OFF切り替え関数
  * @property {number} saltValue - 塩分量フィルタ値（g単位）
  * @property {(value: number) => void} setSaltValue - 塩分量フィルタ値の更新関数
+ * @property {(center: { lat: number; lng: number }) => void} setCenter - 地図中心座標の更新関数
+ * @property {(zoom: number) => void} setZoom - 地図ズーム倍率の更新関数
+ * @property {boolean} isSearching - 検索中状態（ローディング制御）
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setIsSearching - 検索中状態の更新関数
+ * @property {boolean} isLocating - 現在地取得中状態（ローディング制御）
+ * @property {React.Dispatch<React.SetStateAction<boolean>>} setIsLocating - 現在地取得中状態の更新関数
  */
 type SearchFormProps = {
   areaName: string;
@@ -55,20 +61,27 @@ const SearchForm: React.FC<SearchFormProps> = ({
   isLocating,
   setIsLocating,
 }) => {
-  // 検索ボタンのロジックをカスタムフックに委譲（ローディング状態は親から受け取る）
-  const { handleSearch } = useSearchWithLoading({
-    areaName,
-    useCurrentLocation,
-    setCenter,
-    setZoom,
-    isSearching,
-    setIsSearching,
+  // 検索処理の状態・コールバック・副作用をまとめて管理
+  const {
+    handleSearch, // 検索ボタン押下時の処理
+  } = useSearchWithLoading({
+    areaName, // エリア名（地名・住所・駅名）
+    useCurrentLocation, // 現在地検索ON/OFF
+    setCenter, // 地図中心座標の更新関数
+    setZoom, // 地図ズーム倍率の更新関数
+    isSearching, // 検索中状態（ローディング制御）
+    setIsSearching, // 検索中状態の更新関数
   });
+
+  /**
+   * 現在地取得の副作用を管理
+   * 失敗時はalertでエラー表示
+   */
   useGeolocationEffect(
-    useCurrentLocation,
-    onCurrentLocationChange,
-    isLocating,
-    setIsLocating
+    useCurrentLocation, // 現在地取得ON/OFF
+    onCurrentLocationChange, // 取得成功時のコールバック（lat, lng）
+    isLocating, // 現在地取得中状態（ローディング制御）
+    setIsLocating // 現在地取得中状態の更新関数
   );
 
   return (
@@ -76,8 +89,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
       className="flex flex-col gap-4 w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1700px] mx-auto px-2 sm:px-4 md:px-8 p-4 bg-white rounded shadow"
       onSubmit={handleSearch}
     >
-      {/* デバッグ用: isSearching, isLocatingの値を表示（不要なら削除OK） */}
-      {/* ローディングUIは地図上のみ表示。ここは削除 */}
       {/* 住所や場所を入力＋検索ボタン 横並び */}
       <div className="flex flex-row gap-2 items-end">
         <div className="flex-1">

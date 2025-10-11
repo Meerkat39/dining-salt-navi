@@ -3,17 +3,20 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { getMapCenterAndZoom } from "../utils/getMapCenterAndZoom";
 
 /**
- * 地図の中心座標・ズーム・GoogleMapインスタンス管理などのロジックを提供するカスタムフック
- *
- * @param {Store[]} filteredStores - 絞り込まれた店舗リスト（塩分量・エリアでフィルタ済み）
+ * 地図の中心座標・ズーム・GoogleMapインスタンス・選択店舗の状態管理をまとめて行うカスタムフック
+ * - 店舗リスト・選択店舗・外部centerから地図の中心座標・ズームを決定
+ * - GoogleMapインスタンス参照・onCenterChangedコールバックも提供
+ * @param {Store[]} filteredStores - 絞り込み済み店舗リスト（塩分量・エリアでフィルタ済み）
  * @param {string | null} [selectedStoreId] - 選択中の店舗ID（InfoWindow表示・地図ズーム用）
- * @returns {Object} - 地図表示に必要な状態・操作関数をまとめたオブジェクト
- *   - center: 現在の地図中心座標 { lat, lng }
- *   - zoom: 現在のズームレベル
- *   - setCenter: centerの更新関数
- *   - setZoom: zoomの更新関数
- *   - mapRef: GoogleMapインスタンス参照用ref
- *   - handleCenterChanged: onCenterChanged用コールバック
+ * @param {{ lat: number; lng: number } | undefined} [externalCenter] - 外部から指定された地図中心座標（優先適用）
+ * @returns {{
+ *   center: { lat: number; lng: number }, // 現在の地図中心座標
+ *   zoom: number, // 現在のズームレベル
+ *   setCenter: (center: { lat: number; lng: number }) => void, // centerの更新関数
+ *   setZoom: (zoom: number) => void, // zoomの更新関数
+ *   mapRef: React.RefObject<google.maps.Map | null>, // GoogleMapインスタンス参照用ref
+ *   handleCenterChanged: () => void // onCenterChanged用コールバック
+ * }} 地図表示に必要な状態・操作関数まとめ
  */
 export function useMapViewLogic(
   filteredStores: Store[],
@@ -36,10 +39,12 @@ export function useMapViewLogic(
       setZoom(14); // どんなときでもzoom=14に強制
       return;
     }
+    // 店舗リスト・選択店舗からcenter/zoomを算出
     const { center: newCenter, zoom: newZoom } = getMapCenterAndZoom(
       filteredStores,
       selectedStoreId
     );
+    // 初回レンダリング時は初期値でcenter/zoomをセット
     if (isFirstRender.current) {
       isFirstRender.current = false;
       setCenter(newCenter);

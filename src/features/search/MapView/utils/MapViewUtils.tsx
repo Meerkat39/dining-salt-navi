@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
  * GoogleMapコンテナのスタイル定数
  * 横幅100%、高さ400px固定
@@ -6,7 +8,6 @@ export const containerStyle = {
   width: "100%",
   height: "100%",
 };
-import React from "react";
 
 const DEFAULT_CENTER = { lat: 35.6895, lng: 139.6917 };
 

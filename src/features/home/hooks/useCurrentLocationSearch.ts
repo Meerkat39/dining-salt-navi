@@ -38,7 +38,6 @@ export function useCurrentLocationSearch() {
     []
   );
 
-  // フックの返却値（現在地状態・座標・コールバック）
   return {
     useCurrentLocation,
     setUseCurrentLocation,

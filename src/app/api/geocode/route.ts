@@ -1,16 +1,18 @@
+import { NextRequest } from "next/server";
+
 // 簡易レートリミット用（本番はRedis等推奨）
 const rateLimitMap = new Map<string, number[]>();
 
+// 指定IPのリクエスト回数が制限内か判定する関数
 function checkRateLimit(ip: string, limit: number, windowMs: number): boolean {
-  const now = Date.now();
-  const timestamps = rateLimitMap.get(ip) || [];
-  const recent = timestamps.filter((ts) => now - ts < windowMs);
-  if (recent.length >= limit) return false;
-  recent.push(now);
-  rateLimitMap.set(ip, recent);
-  return true;
+  const now = Date.now(); // 現在時刻（ミリ秒）
+  const timestamps = rateLimitMap.get(ip) || []; // そのIPの過去リクエスト時刻一覧
+  const recent = timestamps.filter((ts) => now - ts < windowMs); // windowMs以内のリクエストのみ抽出
+  if (recent.length >= limit) return false; // 制限回数を超えていればfalse
+  recent.push(now); // 今回のリクエスト時刻を追加
+  rateLimitMap.set(ip, recent); // 更新した時刻リストを保存
+  return true; // 制限内ならtrue
 }
-import { NextRequest } from "next/server";
 
 /**
  * /api/geocode
