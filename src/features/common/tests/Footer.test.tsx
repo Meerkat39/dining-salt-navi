@@ -7,12 +7,12 @@ describe("Footer", () => {
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
   });
 
-  it("著作権表示が正しく表示される", () => {
+  it("ページリンクがすべて表示される", () => {
     render(<Footer />);
-    const year = new Date().getFullYear().toString();
-    expect(
-      screen.getByText(new RegExp(`© ${year} 外食減塩ナビ`))
-    ).toBeInTheDocument();
+    expect(screen.getByText("About")).toBeInTheDocument();
+    expect(screen.getByText("Release Notes")).toBeInTheDocument();
+    expect(screen.getByText("Disclaimer")).toBeInTheDocument();
+    expect(screen.getByText("Contact")).toBeInTheDocument();
   });
 
   it("クラス名が正しく付与されている", () => {

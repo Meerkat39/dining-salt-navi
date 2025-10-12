@@ -12,6 +12,20 @@ describe("Header", () => {
     expect(screen.getByText("外食塩分ナビ")).toBeInTheDocument();
   });
 
+  it("ロゴ画像が表示される", () => {
+    render(<Header />);
+    const logo = screen.getByAltText("ロゴ");
+    expect(logo).toBeInTheDocument();
+  });
+
+  it("ページリンクがすべて表示される（PC）", () => {
+    render(<Header />);
+    expect(screen.getByText("About")).toBeInTheDocument();
+    expect(screen.getByText("Release Notes")).toBeInTheDocument();
+    expect(screen.getByText("Disclaimer")).toBeInTheDocument();
+    expect(screen.getByText("Contact")).toBeInTheDocument();
+  });
+
   it("クラス名が正しく付与されている", () => {
     render(<Header />);
     const header = screen.getByRole("banner");
