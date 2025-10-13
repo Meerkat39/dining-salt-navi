@@ -3,10 +3,10 @@
 import { handleCurrentLocationChangeWithDeselect } from "@/features/home/hooks/handleCurrentLocationChangeWithDeselect";
 import { useCurrentLocationSearch } from "@/features/home/hooks/useCurrentLocationSearch";
 import { useFilteredStores } from "@/features/home/hooks/useFilteredStores";
+import { useMenuListByStore } from "@/features/home/hooks/useMenuListByStore";
 import { useSelectedStoreId } from "@/features/home/hooks/useSelectedStoreId";
 import MapView from "@/features/search/MapView/components/MapView";
 import MenuResultList from "@/features/search/MenuResultList/components/MenuResultList";
-import { useMenuListByStore } from "@/features/home/hooks/useMenuListByStore";
 import SearchForm from "@/features/search/SearchForm/components/SearchForm";
 import { useState } from "react";
 
@@ -48,7 +48,11 @@ export default function Home() {
   const filteredStores = useFilteredStores(saltValue);
 
   // 選択店舗IDに応じてメニュー一覧を取得
-  const { menus: selectedMenus } = useMenuListByStore(selectedStoreId);
+  const {
+    menus: selectedMenus, // 選択店舗のメニュー一覧（塩分量昇順）
+    loading: menuLoading, // メニュー取得中フラグ
+    error: menuError, // メニュー取得エラー内容
+  } = useMenuListByStore(selectedStoreId);
 
   // ローディング状態（検索・現在地取得）
   const [isSearching, setIsSearching] = useState(false);
@@ -91,7 +95,13 @@ export default function Home() {
         </div>
         <div className="w-2/6 h-full overflow-y-auto">
           {/* 選択店舗のメニュー一覧を表示（塩分量昇順） */}
-          <MenuResultList menus={selectedMenus || []} saltLimit={saltValue} />
+          <MenuResultList
+            menus={selectedMenus || []}
+            saltLimit={saltValue}
+            selectedStoreId={selectedStoreId}
+            loading={menuLoading}
+            error={menuError}
+          />
         </div>
       </div>
     </main>

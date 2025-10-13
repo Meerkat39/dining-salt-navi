@@ -4,19 +4,27 @@ import { filterMainMenus } from "../utils/filterMainMenus";
 import MenuListItem from "./MenuListItem";
 
 /**
- * メニュー検索結果リスト
- * メニュー一覧（menus）を受け取り、塩分量フィルタ（saltLimit）で絞り込んで表示する。
+ * メニュー検索結果リストのprops定義
  * @param {Menu[]} menus メニューリスト配列
  * @param {number=} saltLimit 塩分量フィルタ（g単位、任意）
+ * @param {string|null=} selectedStoreId 選択中の店舗ID（未選択時はnull）
+ * @param {boolean=} loading メニュー取得中フラグ（trueならローディング表示）
+ * @param {string|null=} error メニュー取得エラー内容（エラー時はエラー表示）
  */
-type MenuResultListProps = {
+export type MenuResultListProps = {
   menus: Menu[];
   saltLimit?: number;
+  selectedStoreId?: string | null;
+  loading?: boolean;
+  error?: string | null;
 };
 
 const MenuResultList: React.FC<MenuResultListProps> = ({
   menus,
   saltLimit,
+  selectedStoreId,
+  loading = false,
+  error = null,
 }) => {
   // メニューリスト表示領域の参照（スクロール制御用）
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -28,10 +36,39 @@ const MenuResultList: React.FC<MenuResultListProps> = ({
     }
   }, [menus]);
 
+  // 店舗未選択時は案内文のみ表示
+  if (!selectedStoreId) {
+    return (
+      <div className="w-full bg-white rounded shadow p-4 text-gray-500 text-center">
+        地図の店舗を選ぶと右にメニューが表示されます。
+      </div>
+    );
+  }
+
+  // メニュー取得中
+  if (loading) {
+    return (
+      <div className="w-full bg-white rounded shadow p-4 text-gray-500 text-center">
+        メニューを読み込み中です…
+      </div>
+    );
+  }
+
+  // メニュー取得エラー
+  if (error) {
+    return (
+      <div className="w-full bg-white rounded shadow p-4 text-red-500 text-center">
+        メニュー情報の取得に失敗しました
+        <br />
+        {error}
+      </div>
+    );
+  }
+
   // メインメニュー＋塩分量フィルタで絞り込み
   const filteredMenus = filterMainMenus(menus, saltLimit);
 
-  // 条件に合うメニューがない場合の表示
+  // 条件に合うメニューがない場合の表示（ローディング・エラー以外）
   if (!filteredMenus || filteredMenus.length === 0) {
     return (
       <div className="w-full bg-white rounded shadow p-4 text-gray-500 text-center">
