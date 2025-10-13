@@ -2,6 +2,8 @@
 
 ## 塩分量でフィルタできる外食検索アプリ
 
+URL：https://dining-salt-navi.vercel.app
+
 外食チェーンのメニューを塩分量で絞り込んで検索できる Web アプリです。
 
 塩分制限が必要な方や健康志向の方が、外食時でも自分に合ったメニュー・店舗を簡単に見つけられるようサポートします。
@@ -52,10 +54,10 @@
 
 ## 技術スタック
 
-| カテゴリ       | 技術・サービス                                 |
-| -------------- | ---------------------------------------------- |
-| フロントエンド | Next.js / React / TypeScript / Tailwind CSS    |
-| バックエンド   | Next.js API Routes / Prisma / Supabase（予定） |
-| データベース   | SQLite（開発用） / Supabase（本番予定）        |
-| CI/CD          | GitHub Actions                                 |
-| 開発支援       | GitHub Copilot / ESLint / Prettier             |
+| カテゴリ       | 技術・サービス                              |
+| -------------- | ------------------------------------------- |
+| フロントエンド | Next.js / React / TypeScript / Tailwind CSS |
+| バックエンド   | Next.js API Routes / Prisma / Supabase      |
+| データベース   | Supabase（PostgreSQL）                      |
+| CI/CD          | GitHub Actions / Vercel                     |
+| 開発支援       | GitHub Copilot / ESLint / Prettier          |
