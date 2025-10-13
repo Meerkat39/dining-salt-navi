@@ -12,7 +12,7 @@ describe("Homeページ", () => {
     // 地図・リストはテストID未設定のため、テキストで判定
     expect(screen.getByText("Loading Map...")).toBeInTheDocument(); // 地図
     expect(
-      screen.getByText("条件に合うメインメニューが見つかりません")
+      screen.getByText("地図の店舗を選ぶとここにメニューが表示されます。")
     ).toBeInTheDocument(); // リスト
   });
 

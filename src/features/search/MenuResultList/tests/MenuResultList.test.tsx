@@ -34,21 +34,29 @@ describe("MenuResultList", () => {
   ];
 
   it("mainかつ塩分量フィルタで表示される", () => {
-    render(<MenuResultList menus={menusMock} saltLimit={2.0} />);
+    render(
+      <MenuResultList
+        menus={menusMock}
+        saltLimit={2.0}
+        selectedStoreId="dummy"
+      />
+    );
     expect(screen.getByText("メニューB")).toBeInTheDocument();
     expect(screen.queryByText("メニューA")).not.toBeInTheDocument();
     expect(screen.queryByText("メニューC")).not.toBeInTheDocument();
   });
 
   it("mainのみ全件表示（フィルタなし）", () => {
-    render(<MenuResultList menus={menusMock} />);
+    render(<MenuResultList menus={menusMock} selectedStoreId="dummy" />);
     expect(screen.getByText("メニューA")).toBeInTheDocument();
     expect(screen.getByText("メニューB")).toBeInTheDocument();
     expect(screen.queryByText("メニューC")).not.toBeInTheDocument();
   });
 
   it("条件に合うメニューがない場合はメッセージ表示", () => {
-    render(<MenuResultList menus={[]} saltLimit={2.0} />);
+    render(
+      <MenuResultList menus={[]} saltLimit={2.0} selectedStoreId="dummy" />
+    );
     expect(
       screen.getByText(/条件に合うメインメニューが見つかりません/)
     ).toBeInTheDocument();
@@ -56,7 +64,7 @@ describe("MenuResultList", () => {
 
   it("メニューリストが変わったときにスクロール位置がリセットされる", () => {
     // スクロール挙動はDOM操作のため、ここではレンダリングのみ確認
-    render(<MenuResultList menus={menusMock} />);
+    render(<MenuResultList menus={menusMock} selectedStoreId="dummy" />);
     expect(screen.getByText("メニューA")).toBeInTheDocument();
   });
 });
