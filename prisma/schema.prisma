@@ -5,15 +5,16 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Chain {
   id         String   @id @default(uuid())
   name       String
-  stores     Store[]
-  menus      Menu[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  menus      Menu[]
+  stores     Store[]
 }
 
 model Store {
@@ -24,9 +25,9 @@ model Store {
   lat        Float
   lng        Float
   place_id   String
-  chain      Chain    @relation(fields: [chain_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  chain      Chain    @relation(fields: [chain_id], references: [id])
 }
 
 model Menu {
@@ -35,7 +36,7 @@ model Menu {
   name             String
   saltEquivalent_g Float
   type             String
-  chain            Chain    @relation(fields: [chain_id], references: [id])
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
+  chain            Chain    @relation(fields: [chain_id], references: [id])
 }
