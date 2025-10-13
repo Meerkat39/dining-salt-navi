@@ -40,7 +40,7 @@ const MenuResultList: React.FC<MenuResultListProps> = ({
   if (!selectedStoreId) {
     return (
       <div className="w-full bg-white rounded shadow p-4 text-gray-500 text-center">
-        地図の店舗を選ぶと右にメニューが表示されます。
+        地図の店舗を選ぶとここにメニューが表示されます。
       </div>
     );
   }

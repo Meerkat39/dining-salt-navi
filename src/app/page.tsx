@@ -80,9 +80,10 @@ export default function Home() {
           setIsLocating={setIsLocating}
         />
       </div>
-      {/* デュアルペイン：MapView（左）＋SearchResultList（右） */}
-      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1700px] mx-auto flex flex-row gap-4 h-[70vh] min-h-[400px]">
-        <div className="w-4/6 h-full">
+      {/* デュアルペイン：PCは横並び、スマホは上下表示（レスポンシブ対応） */}
+      <div className="w-full max-w-3xl sm:max-w-4xl md:max-w-5xl lg:max-w-6xl xl:max-w-7xl 2xl:max-w-[1700px] mx-auto flex flex-col md:flex-row gap-4 h-[70vh] min-h-[400px]">
+        {/* 地図表示（PC:左/スマホ:上） */}
+        <div className="w-full md:w-4/6 h-auto md:min-h-[600px] mb-4 md:mb-0">
           <div className="h-full">
             <MapView
               filteredStores={filteredStores}
@@ -93,8 +94,8 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="w-2/6 h-full overflow-y-auto">
-          {/* 選択店舗のメニュー一覧を表示（塩分量昇順） */}
+        {/* メニュー一覧（PC:右/スマホ:下） */}
+        <div className="w-full md:w-2/6 h-auto md:min-h-[600px] md:h-full md:overflow-y-auto">
           <MenuResultList
             menus={selectedMenus || []}
             saltLimit={saltValue}

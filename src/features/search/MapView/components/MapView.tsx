@@ -94,7 +94,7 @@ const MapView: React.FC<MapViewProps> = ({
 
   // 地図本体と店舗マーカーを描画（バーチャライズ＋グリッドサンプリング適用）
   return (
-    <div className="relative w-full h-full rounded overflow-hidden">
+    <div className="relative w-full h-[600px] md:h-full rounded overflow-hidden">
       {/* ローディングオーバーレイ */}
       {loading && <LoadingOverlay />}
       {/* GoogleMap本体 */}

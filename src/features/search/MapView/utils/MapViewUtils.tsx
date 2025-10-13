@@ -2,7 +2,7 @@ import React from "react";
 
 /**
  * GoogleMapコンテナのスタイル定数
- * 横幅100%、高さ400px固定
+ * 横幅100%、高さ100%固定
  */
 export const containerStyle = {
   width: "100%",
