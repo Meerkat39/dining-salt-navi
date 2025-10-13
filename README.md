@@ -3,9 +3,10 @@
 ## 塩分量でフィルタできる外食検索アプリ
 
 外食チェーンのメニューを塩分量で絞り込んで検索できる Web アプリです。
+
 塩分制限が必要な方や健康志向の方が、外食時でも自分に合ったメニュー・店舗を簡単に見つけられるようサポートします。
 
-![](./public/images/overview.png)
+![](./public/images/overview.jpeg)
 
 ## 開発背景
 
@@ -33,7 +34,7 @@
 
 マーカーをクリックすると、その店舗のメニュー情報（塩分量含む）を表示します。
 
-![](./public/images/marker-click.png)
+![](./public/images/marker-click.jpeg)
 
 ## ご利用上の注意
 
